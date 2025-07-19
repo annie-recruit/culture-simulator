@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>마카롱팩토리 컬처핏 관리자 대시보드</title>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- 관리자 패스워드 보호 -->
+    <script>
+        // 페이지 로드 시 패스워드 확인
+        window.addEventListener('DOMContentLoaded', function() {
+            const adminPassword = prompt("🔐 관리자 패스워드를 입력하세요:");
+            if (adminPassword !== "1234") {
+                alert("❌ 접근 권한이 없습니다.");
+                window.location.href = "index.html";
+                return;
+            }
+            // 패스워드가 맞으면 페이지 표시
+            document.body.style.display = 'block';
+        });
+    </script>
     <style>
         :root {
             --primary-color: #2563eb;
@@ -32,6 +47,7 @@
             background: var(--bg-secondary);
             color: var(--text-primary);
             line-height: 1.6;
+            display: none; /* 패스워드 확인 전까지 숨김 */
         }
 
         .container {
