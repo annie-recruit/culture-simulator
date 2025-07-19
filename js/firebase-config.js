@@ -12,9 +12,11 @@ const firebaseConfig = {
 };
 
 // Firebase 초기화 (Compat 방식)
+let db = null;
+
 try {
     const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    db = firebase.firestore();
     
     console.log('✅ Firebase 초기화 완료');
     console.log('📱 Firebase 앱 정보:', app.name, app.options.projectId);
