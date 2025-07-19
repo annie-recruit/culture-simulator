@@ -1,0 +1,421 @@
+/* 마카롱팩토리 브랜딩 스타일 */
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #1e40af;
+    --accent-color: #3b82f6;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --border-color: #e5e7eb;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    
+    /* 마카롱팩토리 컬처 컬러 */
+    --customer-color: #2563eb;
+    --partnership-color: #10b981;
+    --innovation-color: #8b5cf6;
+    --growth-color: #f59e0b;
+    --efficiency-color: #ef4444;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: var(--text-primary);
+}
+
+/* 모달 스타일 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: var(--bg-primary);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease;
+}
+
+.modal-content h3 {
+    color: var(--primary-color);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.modal-content p {
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.modal-buttons {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.start-button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.start-button:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(37, 99, 235, 0.3);
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 헤더 스타일 */
+.header {
+    background: var(--bg-primary);
+    border-radius: 16px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo h1 {
+    color: var(--primary-color);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.role-badge {
+    background: var(--accent-color);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.progress {
+    text-align: right;
+}
+
+.time {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--primary-color);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.scenario-info {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* 팀 패널 스타일 */
+.team-panel {
+    background: var(--bg-primary);
+    border-radius: 16px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+}
+
+.team-panel h3 {
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.team-members {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.member {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: var(--bg-secondary);
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.member.active {
+    border-color: var(--primary-color);
+    background: #eff6ff;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 12px;
+    color: white;
+}
+
+.avatar.po {
+    background: var(--primary-color);
+}
+
+.avatar.designer {
+    background: var(--accent-color);
+}
+
+.avatar.dev {
+    background: var(--success-color);
+}
+
+.member span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* 메인 콘텐츠 영역 */
+.main-content {
+    flex: 1;
+    min-height: 0;
+}
+
+/* 채팅 컨테이너 - 전체 화면 */
+.chat-container {
+    width: 100%;
+    height: 100%;
+    background: var(--bg-primary);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.message {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    animation: fadeIn 0.3s ease;
+}
+
+.message.user {
+    flex-direction: row-reverse;
+}
+
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.message.user .message-avatar {
+    background: var(--primary-color);
+}
+
+.message-content {
+    background: var(--bg-secondary);
+    padding: 12px 16px;
+    border-radius: 18px;
+    max-width: 70%;
+    line-height: 1.5;
+}
+
+.message.user .message-content {
+    background: var(--primary-color);
+    color: white;
+}
+
+.message-sender {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+/* 선택지 스타일 */
+.choices-container {
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+}
+
+.choice-button {
+    display: block;
+    width: 100%;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    background: var(--bg-primary);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.choice-button:hover {
+    border-color: var(--primary-color);
+    background: #eff6ff;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.choice-button:last-child {
+    margin-bottom: 0;
+}
+
+
+
+.choice-number {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 12px;
+}
+
+
+
+/* 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+    
+    .team-members {
+        justify-content: center;
+    }
+    
+    .culture-points {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .modal-content {
+        padding: 20px;
+        margin: 20px;
+    }
+} 
