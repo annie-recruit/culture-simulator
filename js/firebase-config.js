@@ -1,40 +1,42 @@
-// Firebase 설정 및 초기화
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
+// Firebase 설정 및 초기화 (Compat 버전 - GitHub Pages 호환)
+console.log('🔥 Firebase 설정 파일 로드 시작');
 
-// Firebase 설정 (실제 값으로 교체해주세요)
+// Firebase 설정
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com", 
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyASXhHiYTQ2j0HA439YsI-Ac0eifkqxnGQ",
+  authDomain: "culture-simulator.firebaseapp.com",
+  projectId: "culture-simulator",
+  storageBucket: "culture-simulator.firebasestorage.app",
+  messagingSenderId: "76168310568",
+  appId: "1:76168310568:web:2ee8915b2225b0f8df6a1d"
 };
 
-// Firebase 초기화
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// Firebase 초기화 (Compat 방식)
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+console.log('✅ Firebase 초기화 완료');
 
 // Firestore 데이터베이스 함수들
 class FirestoreManager {
     constructor() {
         this.db = db;
         this.applicantsCollection = 'applicants';
+        console.log('📋 Firestore 매니저 초기화 완료');
     }
 
     // 지원자 데이터 저장
     async saveApplicant(applicantData) {
         try {
-            const docRef = await addDoc(collection(this.db, this.applicantsCollection), {
+            console.log('💾 Firestore에 데이터 저장 시도:', applicantData.name);
+            const docRef = await this.db.collection(this.applicantsCollection).add({
                 ...applicantData,
                 createdAt: new Date().toISOString(),
                 timestamp: Date.now()
             });
-            console.log("지원자 데이터 저장 완료:", docRef.id);
+            console.log("✅ Firestore에 데이터 저장 완료:", docRef.id);
             return docRef.id;
         } catch (error) {
-            console.error("지원자 데이터 저장 실패:", error);
+            console.error("❌ Firestore 저장 실패:", error);
             throw error;
         }
     }
@@ -42,13 +44,13 @@ class FirestoreManager {
     // 모든 지원자 데이터 가져오기
     async getAllApplicants() {
         try {
-            const q = query(
-                collection(this.db, this.applicantsCollection), 
-                orderBy('timestamp', 'desc')
-            );
-            const querySnapshot = await getDocs(q);
-            const applicants = [];
+            console.log('📊 Firestore에서 모든 지원자 데이터 로드 시도');
+            const querySnapshot = await this.db
+                .collection(this.applicantsCollection)
+                .orderBy('timestamp', 'desc')
+                .get();
             
+            const applicants = [];
             querySnapshot.forEach((doc) => {
                 applicants.push({
                     id: doc.id,
@@ -56,40 +58,46 @@ class FirestoreManager {
                 });
             });
             
-            console.log("지원자 데이터 로드 완료:", applicants.length, "명");
+            console.log("✅ Firestore 데이터 로드 완료:", applicants.length, "명");
             return applicants;
         } catch (error) {
-            console.error("지원자 데이터 로드 실패:", error);
+            console.error("❌ Firestore 로드 실패:", error);
             throw error;
         }
     }
 
     // 실시간 데이터 청취 (관리자 대시보드용)
-    async onApplicantsChange(callback) {
+    onApplicantsChange(callback) {
         try {
-            const q = query(
-                collection(this.db, this.applicantsCollection),
-                orderBy('timestamp', 'desc')
-            );
-            
-            return onSnapshot(q, (querySnapshot) => {
-                const applicants = [];
-                querySnapshot.forEach((doc) => {
-                    applicants.push({
-                        id: doc.id,
-                        ...doc.data()
+            console.log('👂 Firestore 실시간 데이터 청취 시작');
+            return this.db
+                .collection(this.applicantsCollection)
+                .orderBy('timestamp', 'desc')
+                .onSnapshot((querySnapshot) => {
+                    const applicants = [];
+                    querySnapshot.forEach((doc) => {
+                        applicants.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
                     });
+                    console.log('🔄 실시간 데이터 업데이트:', applicants.length, '명');
+                    callback(applicants);
+                }, (error) => {
+                    console.error("❌ 실시간 데이터 청취 실패:", error);
                 });
-                callback(applicants);
-            });
         } catch (error) {
-            console.error("실시간 데이터 청취 실패:", error);
+            console.error("❌ 실시간 데이터 청취 초기화 실패:", error);
             throw error;
         }
     }
 }
 
-// 전역 Firestore 매니저 인스턴스
-window.firestoreManager = new FirestoreManager();
-
-export { FirestoreManager, db }; 
+// 전역 Firestore 매니저 인스턴스 생성
+try {
+    window.firestoreManager = new FirestoreManager();
+    console.log('🌍 전역 Firestore 매니저 생성 완료');
+} catch (error) {
+    console.error('❌ Firestore 매니저 생성 실패:', error);
+    window.firestoreManager = null;
+} 
