@@ -12,9 +12,28 @@ const firebaseConfig = {
 };
 
 // Firebase 초기화 (Compat 방식)
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-console.log('✅ Firebase 초기화 완료');
+try {
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    
+    console.log('✅ Firebase 초기화 완료');
+    console.log('📱 Firebase 앱 정보:', app.name, app.options.projectId);
+    console.log('🏪 Firestore 인스턴스:', db.app.name);
+    
+    // 연결 테스트
+    window.testFirestore = async () => {
+        try {
+            console.log('🧪 Firestore 연결 테스트 시작...');
+            await db.collection('test').add({ timestamp: Date.now() });
+            console.log('✅ Firestore 연결 테스트 성공!');
+        } catch (error) {
+            console.error('❌ Firestore 연결 테스트 실패:', error);
+        }
+    };
+    
+} catch (error) {
+    console.error('❌ Firebase 초기화 실패:', error);
+}
 
 // Firestore 데이터베이스 함수들
 class FirestoreManager {
