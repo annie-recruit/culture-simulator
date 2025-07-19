@@ -508,16 +508,34 @@
                 this.init();
             }
 
-            init() {
-                this.loadData();
+            async init() {
+                await this.loadData();
                 this.setupEventListeners();
                 this.renderAll();
             }
 
-            loadData() {
-                const data = localStorage.getItem('macarong_applicants');
-                this.applicants = data ? JSON.parse(data) : [];
+            async loadData() {
+                // Firestore에서 데이터 로드 시도
+                try {
+                    if (window.firestoreManager) {
+                        console.log('🔥 Firestore에서 데이터 로드 중...');
+                        this.applicants = await window.firestoreManager.getAllApplicants();
+                        console.log('✅ Firestore 데이터 로드 완료:', this.applicants.length, '명');
+                    } else {
+                        console.warn('⚠️ Firestore 매니저가 초기화되지 않음. localStorage 사용.');
+                        throw new Error('Firestore not available');
+                    }
+                } catch (error) {
+                    console.error('❌ Firestore 로드 실패:', error);
+                    console.log('📦 localStorage에서 백업 데이터 로드');
+                    
+                    // 백업으로 localStorage에서 로드
+                    const data = localStorage.getItem('macarong_applicants');
+                    this.applicants = data ? JSON.parse(data) : [];
+                }
+                
                 this.filteredApplicants = [...this.applicants];
+                console.log('📊 총', this.applicants.length, '명의 지원자 데이터 로드 완료');
             }
 
             setupEventListeners() {
@@ -764,9 +782,12 @@
         }
 
         // 페이지 로드 시 대시보드 초기화
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             window.dashboard = new AdminDashboard();
+            await window.dashboard.init();
         });
     </script>
+    
+    <script type="module" src="js/firebase-config.js"></script>
 </body>
 </html> 

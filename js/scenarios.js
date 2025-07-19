@@ -422,4 +422,30 @@ class ScenarioManager {
         const maxPossible = this.completedScenarios.length * 15 * 5; // 최대 15점 * 5개 영역
         return Math.round((total / maxPossible) * 100) || 0;
     }
+
+    // Firestore에 결과 저장
+    async saveResultToFirestore(applicantData) {
+        try {
+            if (window.firestoreManager) {
+                const resultData = {
+                    ...applicantData,
+                    scores: this.totalScore,
+                    finalPercentage: this.getCultureFitPercentage(),
+                    responses: this.completedScenarios,
+                    startTime: Date.now(),
+                    endTime: Date.now()
+                };
+                
+                const docId = await window.firestoreManager.saveApplicant(resultData);
+                console.log('결과가 Firestore에 저장되었습니다:', docId);
+                return docId;
+            } else {
+                console.warn('Firestore 매니저가 초기화되지 않았습니다.');
+                return null;
+            }
+        } catch (error) {
+            console.error('Firestore 저장 중 오류:', error);
+            return null;
+        }
+    }
 } 

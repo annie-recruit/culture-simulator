@@ -317,11 +317,8 @@ class CultureFitSimulator {
         }, 1000);
     }
 
-    saveApplicantData() {
-        // 기존 데이터 가져오기
-        const existingData = JSON.parse(localStorage.getItem('macarong_applicants') || '[]');
-        
-        // 새 데이터 추가
+    async saveApplicantData() {
+        // 새 데이터 준비
         const applicantResult = {
             id: Date.now(),
             ...this.applicantData,
@@ -329,12 +326,30 @@ class CultureFitSimulator {
             createdAt: new Date().toISOString()
         };
         
-        existingData.push(applicantResult);
+        // Firestore에 저장 시도
+        try {
+            if (window.firestoreManager) {
+                await window.firestoreManager.saveApplicant(applicantResult);
+                console.log('✅ Firestore에 데이터 저장 완료:', applicantResult.id);
+            } else {
+                console.warn('⚠️ Firestore 매니저가 초기화되지 않음. localStorage만 사용.');
+            }
+        } catch (error) {
+            console.error('❌ Firestore 저장 실패:', error);
+            console.log('📦 localStorage에만 저장합니다.');
+        }
         
-        // 로컬 스토리지에 저장
-        localStorage.setItem('macarong_applicants', JSON.stringify(existingData));
+        // 백업으로 로컬 스토리지에도 저장
+        try {
+            const existingData = JSON.parse(localStorage.getItem('macarong_applicants') || '[]');
+            existingData.push(applicantResult);
+            localStorage.setItem('macarong_applicants', JSON.stringify(existingData));
+            console.log('📦 localStorage 백업 저장 완료');
+        } catch (error) {
+            console.error('❌ localStorage 저장도 실패:', error);
+        }
         
-        console.log('지원자 데이터 저장 완료:', applicantResult);
+        console.log('💾 지원자 데이터 저장 완료:', applicantResult);
     }
 
     getCultureFitComment(percentage) {
