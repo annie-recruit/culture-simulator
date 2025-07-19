@@ -396,76 +396,101 @@ body {
 /* 모바일 최적화 */
 @media (max-width: 768px) {
     .container {
-        padding: 8px;
+        padding: 5px;
         height: 100vh;
     }
     
     .header {
         flex-direction: column;
-        gap: 12px;
+        gap: 8px;
         text-align: center;
-        padding: 12px 16px;
+        padding: 8px 12px;
     }
     
     .header h1 {
-        font-size: 20px;
+        font-size: 18px;
+        margin-bottom: 4px;
     }
     
     .role-badge {
-        font-size: 12px;
-        padding: 4px 12px;
+        font-size: 11px;
+        padding: 3px 10px;
+    }
+    
+    .progress {
+        display: none; /* 모바일에서 시간 정보 숨김 */
     }
     
     .team-panel {
-        padding: 12px 16px;
-        margin-top: 8px;
+        padding: 8px 12px;
+        margin-top: 5px;
     }
     
     .team-panel h3 {
-        font-size: 16px;
-        margin-bottom: 12px;
+        font-size: 14px;
+        margin-bottom: 8px;
     }
     
     .team-members {
         justify-content: center;
-        gap: 8px;
+        gap: 6px;
+        flex-wrap: wrap;
     }
     
     .member {
-        padding: 6px 10px;
-        font-size: 12px;
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+    
+    .member span {
+        display: none; /* 모바일에서 이름 숨기고 아바타만 표시 */
     }
     
     .avatar {
-        width: 28px;
-        height: 28px;
-        font-size: 11px;
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
+    
+    .main-content {
+        flex: 1;
+        min-height: 0;
+        margin-top: 5px; /* 팀 패널과의 간격 축소 */
+    }
+    
+    .chat-container {
+        height: 100%;
     }
     
     .chat-messages {
-        padding: 16px;
-        gap: 12px;
+        padding: 12px;
+        gap: 10px;
+        flex: 1; /* 대화창 공간 최대화 */
     }
     
     .message-avatar {
-        width: 35px;
-        height: 35px;
-        font-size: 13px;
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
     }
     
     .message-content {
-        padding: 10px 14px;
+        padding: 8px 12px;
         font-size: 14px;
-        max-width: 85%;
-        border-radius: 16px;
+        max-width: 88%;
+        border-radius: 14px;
+        line-height: 1.4;
     }
     
     .message-sender {
-        font-size: 11px;
+        font-size: 10px;
+        margin-bottom: 2px;
     }
     
     .choices-container {
-        padding: 16px;
+        padding: 12px;
+        border-top: 1px solid var(--border-color);
+        background: var(--bg-secondary);
     }
     
     .choice-button {
@@ -516,30 +541,51 @@ body {
 /* 추가 소형 모바일 최적화 */
 @media (max-width: 480px) {
     .container {
-        padding: 5px;
+        padding: 3px;
+    }
+    
+    .header {
+        padding: 6px 10px;
     }
     
     .header h1 {
-        font-size: 18px;
+        font-size: 16px;
+    }
+    
+    .team-panel {
+        padding: 6px 10px;
+        margin-top: 3px;
+    }
+    
+    .team-panel h3 {
+        font-size: 12px;
+        margin-bottom: 6px;
     }
     
     .chat-messages {
-        padding: 12px;
+        padding: 10px;
+        gap: 8px;
     }
     
     .message-content {
-        max-width: 90%;
+        max-width: 92%;
         font-size: 13px;
+        padding: 7px 10px;
     }
     
     .choice-button {
-        padding: 12px 14px;
+        padding: 10px 12px;
         font-size: 13px;
+        margin-bottom: 8px;
+    }
+    
+    .choices-container {
+        padding: 10px;
     }
     
     .modal-content {
-        margin: 10px;
-        padding: 16px;
+        margin: 8px;
+        padding: 14px;
     }
 }
 
