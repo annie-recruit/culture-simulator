@@ -607,4 +607,43 @@ body {
         min-height: 48px;
         -webkit-tap-highlight-color: transparent;
     }
+}
+
+/* 저작권 표시 스타일 */
+.copyright {
+    text-align: center;
+    padding: 20px;
+    margin-top: auto;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+}
+
+.copyright p {
+    margin: 5px 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.copyright p:first-child {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.copyright strong {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+/* 모바일에서 저작권 표시 */
+@media (max-width: 768px) {
+    .copyright {
+        padding: 15px;
+        margin-top: 15px;
+    }
+    
+    .copyright p {
+        font-size: 12px;
+    }
 } 

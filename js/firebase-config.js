@@ -11,41 +11,10 @@ const firebaseConfig = {
   appId: "1:76168310568:web:2ee8915b2225b0f8df6a1d"
 };
 
-// Firebase 초기화 (Compat 방식)
-let db = null;
-
-try {
-    const app = firebase.initializeApp(firebaseConfig);
-    db = firebase.firestore();
-    
-    console.log('✅ Firebase 초기화 완료');
-    console.log('📱 Firebase 앱 정보:', app.name, app.options.projectId);
-    console.log('🏪 Firestore 인스턴스:', db.app.name);
-    
-    // Firebase 초기화 성공 후 Firestore 매니저 생성
-    window.firestoreManager = new FirestoreManager();
-    console.log('🌍 전역 Firestore 매니저 생성 완료');
-    
-    // 연결 테스트
-    window.testFirestore = async () => {
-        try {
-            console.log('🧪 Firestore 연결 테스트 시작...');
-            await db.collection('test').add({ timestamp: Date.now() });
-            console.log('✅ Firestore 연결 테스트 성공!');
-        } catch (error) {
-            console.error('❌ Firestore 연결 테스트 실패:', error);
-        }
-    };
-    
-} catch (error) {
-    console.error('❌ Firebase 초기화 실패:', error);
-    window.firestoreManager = null;
-}
-
 // Firestore 데이터베이스 함수들
 class FirestoreManager {
-    constructor() {
-        this.db = db;
+    constructor(dbInstance) {
+        this.db = dbInstance;
         this.applicantsCollection = 'applicants';
         console.log('📋 Firestore 매니저 초기화 완료');
     }
@@ -119,4 +88,33 @@ class FirestoreManager {
     }
 }
 
-// FirestoreManager는 위의 try 블록 안에서 생성됩니다 
+// Firebase 초기화 (Compat 방식)
+let db = null;
+
+try {
+    const app = firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+    
+    console.log('✅ Firebase 초기화 완료');
+    console.log('📱 Firebase 앱 정보:', app.name, app.options.projectId);
+    console.log('🏪 Firestore 인스턴스:', db.app.name);
+    
+    // Firebase 초기화 성공 후 Firestore 매니저 생성
+    window.firestoreManager = new FirestoreManager(db);
+    console.log('🌍 전역 Firestore 매니저 생성 완료');
+    
+    // 연결 테스트
+    window.testFirestore = async () => {
+        try {
+            console.log('🧪 Firestore 연결 테스트 시작...');
+            await db.collection('test').add({ timestamp: Date.now() });
+            console.log('✅ Firestore 연결 테스트 성공!');
+        } catch (error) {
+            console.error('❌ Firestore 연결 테스트 실패:', error);
+        }
+    };
+    
+} catch (error) {
+    console.error('❌ Firebase 초기화 실패:', error);
+    window.firestoreManager = null;
+} 
