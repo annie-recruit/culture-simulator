@@ -22,6 +22,10 @@ try {
     console.log('📱 Firebase 앱 정보:', app.name, app.options.projectId);
     console.log('🏪 Firestore 인스턴스:', db.app.name);
     
+    // Firebase 초기화 성공 후 Firestore 매니저 생성
+    window.firestoreManager = new FirestoreManager();
+    console.log('🌍 전역 Firestore 매니저 생성 완료');
+    
     // 연결 테스트
     window.testFirestore = async () => {
         try {
@@ -35,6 +39,7 @@ try {
     
 } catch (error) {
     console.error('❌ Firebase 초기화 실패:', error);
+    window.firestoreManager = null;
 }
 
 // Firestore 데이터베이스 함수들
@@ -114,11 +119,4 @@ class FirestoreManager {
     }
 }
 
-// 전역 Firestore 매니저 인스턴스 생성
-try {
-    window.firestoreManager = new FirestoreManager();
-    console.log('🌍 전역 Firestore 매니저 생성 완료');
-} catch (error) {
-    console.error('❌ Firestore 매니저 생성 실패:', error);
-    window.firestoreManager = null;
-} 
+// FirestoreManager는 위의 try 블록 안에서 생성됩니다 
