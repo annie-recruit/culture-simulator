@@ -343,9 +343,14 @@
             const characters = window.getCharactersInfo();
             if (characters.length > 0) {
                 console.log('👥 캐릭터 정보:', characters);
-                const infoText = characters.map(char => 
-                    `${char.name} (${char.description})\n- 위치: (${char.position.x}, ${char.position.y})\n- 이동중: ${char.isMoving ? '예' : '아니오'}`
-                ).join('\n\n');
+                const infoText = characters.map(char => {
+                    const sprite = char.sprite;
+                    const sizeInfo = sprite && sprite.characterData ? 
+                        `\n- 원본 크기: ${sprite.characterData.originalSize.width}x${sprite.characterData.originalSize.height}` +
+                        `\n- 스케일: ${sprite.characterData.scale.toFixed(2)}` : '';
+                    
+                    return `${char.name} (${char.description})\n- 위치: (${char.position.x}, ${char.position.y})\n- 이동중: ${char.isMoving ? '예' : '아니오'}${sizeInfo}`;
+                }).join('\n\n');
                 alert(`캐릭터 정보 (${characters.length}명):\n\n${infoText}`);
             } else {
                 alert('캐릭터가 생성되지 않았습니다.');

@@ -47,22 +47,27 @@ class Character {
             const texture = await PIXI.Texture.from(CHARACTER_TYPES[this.type].image);
             this.sprite = new PIXI.Sprite(texture);
             
-            // 캐릭터 크기 설정 (32x32 타일 기준)
-            this.sprite.width = 32;
-            this.sprite.height = 32;
+            // 비율 유지하며 크기 조정 (32px 기준)
+            const scale = 32 / Math.max(texture.width, texture.height);
+            this.sprite.scale.set(scale);
             
-            // 위치 설정
-            this.sprite.x = this.x;
-            this.sprite.y = this.y;
+            // 중심 기준으로 설정
+            this.sprite.anchor.set(0.5);
+            
+            // 위치 설정 (타일 중심에 배치)
+            this.sprite.x = this.x + 16;
+            this.sprite.y = this.y + 16;
             
             // 캐릭터 정보 저장
             this.sprite.characterData = {
                 type: this.type,
                 name: this.name,
-                description: CHARACTER_TYPES[this.type].description
+                description: CHARACTER_TYPES[this.type].description,
+                originalSize: { width: texture.width, height: texture.height },
+                scale: scale
             };
             
-            console.log(`✅ 캐릭터 스프라이트 생성: ${this.name}`);
+            console.log(`✅ 캐릭터 스프라이트 생성: ${this.name} (원본: ${texture.width}x${texture.height}, 스케일: ${scale.toFixed(2)})`);
             return this.sprite;
             
         } catch (error) {
@@ -89,13 +94,15 @@ class Character {
             if (distance > 1) {
                 this.x += (dx / distance) * this.speed;
                 this.y += (dy / distance) * this.speed;
-                this.sprite.x = this.x;
-                this.sprite.y = this.y;
+                // 중심 기준 위치 업데이트
+                this.sprite.x = this.x + 16;
+                this.sprite.y = this.y + 16;
             } else {
                 this.x = this.targetX;
                 this.y = this.targetY;
-                this.sprite.x = this.x;
-                this.sprite.y = this.y;
+                // 중심 기준 위치 업데이트
+                this.sprite.x = this.x + 16;
+                this.sprite.y = this.y + 16;
                 this.isMoving = false;
                 console.log(`✅ ${this.name} 이동 완료`);
             }
