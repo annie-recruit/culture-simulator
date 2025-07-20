@@ -1100,6 +1100,181 @@ class AdvancedPixelMap {
     }
 }
 
+// 픽셀 아트 사무실 맵 렌더링
+class PixelOfficeMap {
+    constructor() {
+        this.tileSize = 32;
+        this.mapWidth = 10;
+        this.mapHeight = 10;
+        this.tiles = [];
+        this.mapContainer = null;
+        
+        // 맵 레이아웃 (10x10 타일)
+        this.mapLayout = [
+            [1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            [1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            [1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            [1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            [1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            [3, 3, 3, 3, 3, 4, 4, 4, 4, 4],
+            [3, 3, 3, 3, 3, 4, 4, 4, 4, 4],
+            [3, 3, 3, 3, 3, 4, 4, 4, 4, 4],
+            [3, 3, 3, 3, 3, 4, 4, 4, 4, 4],
+            [3, 3, 3, 3, 3, 4, 4, 4, 4, 4],
+        ];
+        
+        // 구역 정보
+        this.areas = {
+            1: { name: "미팅룸", color: 0x4A90E2 },
+            2: { name: "카페테리아", color: 0x7ED321 },
+            3: { name: "좌석A", color: 0xF5A623 },
+            4: { name: "좌석B", color: 0xBD10E0 }
+        };
+    }
+
+    // 맵 생성 및 렌더링
+    async createOfficeMap() {
+        console.log('🏢 픽셀 아트 사무실 맵 생성 시작');
+        
+        try {
+            // 맵 컨테이너 생성
+            this.mapContainer = new PIXI.Container();
+            this.mapContainer.name = 'officeMap';
+            
+            // 타일 텍스처 로드
+            await this.loadTileTextures();
+            
+            // 맵 렌더링
+            this.renderMap();
+            
+            // 스테이지에 추가
+            if (window.app && window.app.stage) {
+                window.app.stage.addChild(this.mapContainer);
+                console.log('✅ 사무실 맵이 스테이지에 추가되었습니다');
+            } else {
+                console.error('❌ app.stage를 찾을 수 없습니다');
+            }
+            
+            return this.mapContainer;
+            
+        } catch (error) {
+            console.error('❌ 사무실 맵 생성 실패:', error);
+            throw error;
+        }
+    }
+
+    // 타일 텍스처 로드
+    async loadTileTextures() {
+        console.log('📦 타일 텍스처 로드 시작');
+        
+        const texturePromises = [];
+        
+        // tile_0.png ~ tile_4.png 로드
+        for (let i = 0; i <= 4; i++) {
+            const texturePromise = PIXI.Texture.from(`assets/tiles/tile_${i}.png`);
+            texturePromises.push(texturePromise);
+        }
+        
+        try {
+            this.tiles = await Promise.all(texturePromises);
+            console.log(`✅ ${this.tiles.length}개의 타일 텍스처 로드 완료`);
+        } catch (error) {
+            console.error('❌ 타일 텍스처 로드 실패:', error);
+            // 텍스처 로드 실패 시 기본 색상으로 대체
+            this.createFallbackTextures();
+        }
+    }
+
+    // 폴백 텍스처 생성 (타일 이미지가 없을 때)
+    createFallbackTextures() {
+        console.log('🎨 폴백 텍스처 생성');
+        
+        this.tiles = [];
+        for (let i = 0; i <= 4; i++) {
+            const graphics = new PIXI.Graphics();
+            const color = this.areas[i] ? this.areas[i].color : 0xCCCCCC;
+            
+            graphics.beginFill(color);
+            graphics.drawRect(0, 0, this.tileSize, this.tileSize);
+            graphics.endFill();
+            
+            // 타일 번호 표시
+            const text = new PIXI.Text(i.toString(), {
+                fontSize: 12,
+                fill: 0xFFFFFF,
+                align: 'center'
+            });
+            text.anchor.set(0.5);
+            text.position.set(this.tileSize / 2, this.tileSize / 2);
+            graphics.addChild(text);
+            
+            this.tiles.push(graphics.generateTexture());
+        }
+    }
+
+    // 맵 렌더링
+    renderMap() {
+        console.log('🎨 맵 렌더링 시작');
+        
+        for (let row = 0; row < this.mapHeight; row++) {
+            for (let col = 0; col < this.mapWidth; col++) {
+                const tileIndex = this.mapLayout[row][col];
+                const x = col * this.tileSize;
+                const y = row * this.tileSize;
+                
+                // 타일 스프라이트 생성
+                const tileSprite = new PIXI.Sprite(this.tiles[tileIndex]);
+                tileSprite.position.set(x, y);
+                tileSprite.name = `tile_${row}_${col}`;
+                
+                // 구역 정보 저장
+                tileSprite.areaId = tileIndex;
+                tileSprite.areaName = this.areas[tileIndex]?.name || 'Unknown';
+                
+                this.mapContainer.addChild(tileSprite);
+            }
+        }
+        
+        console.log(`✅ ${this.mapWidth * this.mapHeight}개의 타일 렌더링 완료`);
+    }
+
+    // 맵 제거
+    destroyMap() {
+        if (this.mapContainer) {
+            this.mapContainer.destroy({ children: true });
+            this.mapContainer = null;
+            console.log('🗑️ 사무실 맵 제거 완료');
+        }
+    }
+
+    // 맵 정보 반환
+    getMapInfo() {
+        return {
+            width: this.mapWidth * this.tileSize,
+            height: this.mapHeight * this.tileSize,
+            tileSize: this.tileSize,
+            areas: this.areas,
+            layout: this.mapLayout
+        };
+    }
+}
+
+// 전역 함수로 노출
+window.createOfficeMap = async function() {
+    if (!window.pixelOfficeMap) {
+        window.pixelOfficeMap = new PixelOfficeMap();
+    }
+    return await window.pixelOfficeMap.createOfficeMap();
+};
+
+window.destroyOfficeMap = function() {
+    if (window.pixelOfficeMap) {
+        window.pixelOfficeMap.destroyMap();
+    }
+};
+
+console.log('🏢 픽셀 아트 사무실 맵 모듈 로드 완료');
+
 // 전역 픽셀 맵 인스턴스
 window.pixelMap = null;
 

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>픽셀 맵 테스트 - 마카롱팩토리</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .test-controls {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .test-controls button {
+            background: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        
+        .test-controls button:hover {
+            background: #357ABD;
+            transform: translateY(-1px);
+        }
+        
+        .test-controls button.danger {
+            background: #E74C3C;
+        }
+        
+        .test-controls button.danger:hover {
+            background: #C0392B;
+        }
+        
+        .map-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+        
+        #pixiCanvas {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: #2C3E50;
+        }
+        
+        .info {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .area-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .area-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .area-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin: 0 auto 5px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏢 픽셀 아트 사무실 맵 테스트</h1>
+            <p>PixiJS를 사용한 10x10 타일 맵 렌더링 테스트</p>
+        </div>
+        
+        <div class="test-controls">
+            <h3>🎮 테스트 컨트롤</h3>
+            <button onclick="createMap()">맵 생성</button>
+            <button onclick="destroyMap()" class="danger">맵 제거</button>
+            <button onclick="showMapInfo()">맵 정보</button>
+            <button onclick="toggleFullscreen()">전체화면</button>
+        </div>
+        
+        <div class="map-container">
+            <h3>🗺️ 맵 렌더링 영역</h3>
+            <div id="pixiContainer"></div>
+        </div>
+        
+        <div class="info">
+            <h3>📋 맵 정보</h3>
+            <p><strong>크기:</strong> 10x10 타일 (320x320 픽셀)</p>
+            <p><strong>타일 크기:</strong> 32x32 픽셀</p>
+            <p><strong>구역:</strong> 4개 구역 (미팅룸, 카페테리아, 좌석A, 좌석B)</p>
+            
+            <div class="area-info">
+                <div class="area-item">
+                    <div class="area-color" style="background: #4A90E2;"></div>
+                    <strong>미팅룸</strong><br>
+                    <small>구역 1</small>
+                </div>
+                <div class="area-item">
+                    <div class="area-color" style="background: #7ED321;"></div>
+                    <strong>카페테리아</strong><br>
+                    <small>구역 2</small>
+                </div>
+                <div class="area-item">
+                    <div class="area-color" style="background: #F5A623;"></div>
+                    <strong>좌석A</strong><br>
+                    <small>구역 3</small>
+                </div>
+                <div class="area-item">
+                    <div class="area-color" style="background: #BD10E0;"></div>
+                    <strong>좌석B</strong><br>
+                    <small>구역 4</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PixiJS -->
+    <script src="https://pixijs.download/release/pixi.min.js"></script>
+    
+    <!-- 픽셀 맵 모듈 -->
+    <script src="js/pixel-map.js"></script>
+    
+    <script>
+        // PixiJS 앱 초기화
+        let app;
+        
+        function initPixiApp() {
+            if (app) {
+                app.destroy(true);
+            }
+            
+            app = new PIXI.Application({
+                width: 400,
+                height: 400,
+                backgroundColor: 0x2C3E50,
+                antialias: true,
+                resolution: window.devicePixelRatio || 1,
+            });
+            
+            document.getElementById('pixiContainer').appendChild(app.view);
+            
+            // 전역 app 객체 설정
+            window.app = app;
+            
+            console.log('🎮 PixiJS 앱 초기화 완료');
+        }
+        
+        // 맵 생성
+        async function createMap() {
+            try {
+                if (!app) {
+                    initPixiApp();
+                }
+                
+                const mapContainer = await window.createOfficeMap();
+                console.log('✅ 맵 생성 완료:', mapContainer);
+                
+                // 맵을 중앙에 배치
+                mapContainer.position.set(
+                    (app.screen.width - mapContainer.width) / 2,
+                    (app.screen.height - mapContainer.height) / 2
+                );
+                
+            } catch (error) {
+                console.error('❌ 맵 생성 실패:', error);
+                alert('맵 생성에 실패했습니다: ' + error.message);
+            }
+        }
+        
+        // 맵 제거
+        function destroyMap() {
+            window.destroyOfficeMap();
+            console.log('🗑️ 맵 제거 완료');
+        }
+        
+        // 맵 정보 표시
+        function showMapInfo() {
+            if (window.pixelOfficeMap) {
+                const info = window.pixelOfficeMap.getMapInfo();
+                console.log('📋 맵 정보:', info);
+                alert(`맵 정보:\n- 크기: ${info.width}x${info.height}\n- 타일 크기: ${info.tileSize}x${info.tileSize}\n- 구역 수: ${Object.keys(info.areas).length}`);
+            } else {
+                alert('맵이 생성되지 않았습니다.');
+            }
+        }
+        
+        // 전체화면 토글
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+        
+        // 페이지 로드 시 초기화
+        window.addEventListener('load', () => {
+            console.log('🚀 픽셀 맵 테스트 페이지 로드 완료');
+        });
+    </script>
+</body>
+</html> 
