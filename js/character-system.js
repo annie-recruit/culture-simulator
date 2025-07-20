@@ -13,15 +13,15 @@ const CHARACTER_TYPES = {
         image: 'assets/characters/pd.png',
         description: 'Product Designer'
     },
-    IOS_DEV: {
-        name: 'iOS Developer',
-        image: 'assets/characters/ios_developer.png',
-        description: 'iOS 개발자'
+    DEV1: {
+        name: 'Developer 1',
+        image: 'assets/characters/dev1.png',
+        description: '개발자 1'
     },
-    SERVER_DEV: {
-        name: 'Server Developer',
-        image: 'assets/characters/server_developer.png',
-        description: '서버 개발자'
+    DEV2: {
+        name: 'Developer 2',
+        image: 'assets/characters/dev2.png',
+        description: '개발자 2'
     }
 };
 
@@ -229,8 +229,8 @@ class CharacterManager {
             // 각 구역에 캐릭터 배치 (맵 기준 + 오프셋)
             await this.addCharacter('PO', mapOffsetX + 80, mapOffsetY + 80, '김PO'); // 미팅룸
             await this.addCharacter('PD', mapOffsetX + 240, mapOffsetY + 80, '박PD'); // 카페테리아
-            await this.addCharacter('IOS_DEV', mapOffsetX + 80, mapOffsetY + 240, '이iOS'); // 좌석A
-            await this.addCharacter('SERVER_DEV', mapOffsetX + 240, mapOffsetY + 240, '최서버'); // 좌석B
+            await this.addCharacter('DEV1', mapOffsetX + 80, mapOffsetY + 240, '이개발'); // 좌석A
+            await this.addCharacter('DEV2', mapOffsetX + 240, mapOffsetY + 240, '최개발'); // 좌석B
             
             console.log('✅ 샘플 캐릭터들 생성 완료');
             
