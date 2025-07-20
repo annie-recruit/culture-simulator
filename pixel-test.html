@@ -169,47 +169,69 @@
         let app;
         
         function initPixiApp() {
-            if (app) {
-                app.destroy(true);
+            try {
+                if (app) {
+                    app.destroy(true);
+                }
+                
+                app = new PIXI.Application({
+                    width: 400,
+                    height: 400,
+                    backgroundColor: 0x2C3E50,
+                    antialias: false,
+                    resolution: 1,
+                    autoDensity: true,
+                    powerPreference: "high-performance"
+                });
+                
+                // app.view가 준비될 때까지 기다림
+                if (app.view) {
+                    document.getElementById('pixiContainer').appendChild(app.view);
+                    
+                    // 전역 app 객체 설정
+                    window.app = app;
+                    
+                    console.log('🎮 PixiJS 앱 초기화 완료');
+                    return true;
+                } else {
+                    console.error('❌ PixiJS 앱 view 생성 실패');
+                    return false;
+                }
+            } catch (error) {
+                console.error('❌ PixiJS 앱 초기화 실패:', error);
+                return false;
             }
-            
-            app = new PIXI.Application({
-                width: 400,
-                height: 400,
-                backgroundColor: 0x2C3E50,
-                antialias: true,
-                resolution: window.devicePixelRatio || 1,
-            });
-            
-            document.getElementById('pixiContainer').appendChild(app.view);
-            
-            // 전역 app 객체 설정
-            window.app = app;
-            
-            console.log('🎮 PixiJS 앱 초기화 완료');
         }
         
         // 맵 생성
         async function createMap() {
             try {
-                if (!app) {
-                    initPixiApp();
+                console.log('🏗️ 맵 생성 시작...');
+                
+                // PixiJS 앱 초기화
+                if (!app || !app.view) {
+                    const initSuccess = initPixiApp();
+                    if (!initSuccess) {
+                        throw new Error('PixiJS 앱 초기화 실패');
+                    }
                 }
                 
                 // PixelMapManager 초기화
                 if (!window.pixelMapManager) {
                     window.pixelMapManager = new PixelMapManager(app);
+                    console.log('🗺️ PixelMapManager 초기화 완료');
                 }
                 
+                // 맵 생성
                 const mapContainer = await window.createOfficeMap();
                 console.log('✅ 맵 생성 완료:', mapContainer);
                 
                 // 맵을 중앙에 배치
                 if (mapContainer) {
-                    mapContainer.position.set(
-                        (app.screen.width - mapContainer.width) / 2,
-                        (app.screen.height - mapContainer.height) / 2
-                    );
+                    const centerX = (app.screen.width - mapContainer.width) / 2;
+                    const centerY = (app.screen.height - mapContainer.height) / 2;
+                    mapContainer.position.set(centerX, centerY);
+                    console.log('📍 맵 중앙 배치 완료:', centerX, centerY);
                 }
                 
             } catch (error) {
@@ -247,6 +269,15 @@
         // 페이지 로드 시 초기화
         window.addEventListener('load', () => {
             console.log('🚀 픽셀 맵 테스트 페이지 로드 완료');
+            
+            // PixiJS 로드 확인
+            if (typeof PIXI !== 'undefined') {
+                console.log('✅ PixiJS 로드 확인됨');
+                console.log('📦 PIXI 버전:', PIXI.VERSION);
+            } else {
+                console.error('❌ PixiJS 로드 실패');
+                alert('PixiJS 라이브러리 로드에 실패했습니다. 페이지를 새로고침해주세요.');
+            }
         });
     </script>
 </body>
