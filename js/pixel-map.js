@@ -1,42 +1,28 @@
-// PixiJS 픽셀 아트 사무실 맵 생성기
+// PixiJS 픽셀 아트 사무실 맵 생성기 (통파일 배경 방식)
 console.log('🎮 픽셀 맵 시스템 로드 시작');
 
-// 맵 레이아웃 정의 (10x10 타일) - 기존 타일 사용
-const mapLayout = [
-    [301, 301, 301, 301, 301, 302, 302, 302, 302, 302],
-    [301, 301, 301, 301, 301, 302, 302, 302, 302, 302],
-    [301, 301, 301, 301, 301, 302, 302, 302, 302, 302],
-    [301, 301, 301, 301, 301, 302, 302, 302, 302, 302],
-    [301, 301, 301, 301, 301, 302, 302, 302, 302, 302],
-    [303, 303, 303, 303, 303, 304, 304, 304, 304, 304],
-    [303, 303, 303, 303, 303, 304, 304, 304, 304, 304],
-    [303, 303, 303, 303, 303, 304, 304, 304, 304, 304],
-    [303, 303, 303, 303, 303, 304, 304, 304, 304, 304],
-    [303, 303, 303, 303, 303, 304, 304, 304, 304, 304],
-];
+// 전체 맵 이미지 경로
+const FULL_MAP_IMAGE = 'assets/full.png';
 
-// 구역별 이름
+// 구역별 이름 (전체 맵 기준)
 const areaNames = {
-    301: '미팅룸',
-    302: '카페테리아', 
-    303: '좌석A',
-    304: '좌석B'
+    'meeting': '미팅룸',
+    'cafeteria': '카페테리아', 
+    'seatA': '좌석A',
+    'seatB': '좌석B'
 };
 
 class PixelMapManager {
     constructor(app) {
         this.app = app;
         this.mapContainer = null;
-        this.tileSize = 32;
-        this.mapWidth = mapLayout[0].length;
-        this.mapHeight = mapLayout.length;
-        this.tileSprites = [];
+        this.mapSprite = null;
+        this.mapWidth = 320; // 10x32 = 320px
+        this.mapHeight = 320; // 10x32 = 320px
         
         console.log('🗺️ 픽셀 맵 매니저 초기화 완료');
-        console.log(`📏 맵 크기: ${this.mapWidth}x${this.mapHeight} (${this.tileSize}px 타일)`);
+        console.log(`📏 맵 크기: ${this.mapWidth}x${this.mapHeight}px`);
     }
-
-
 
     // 맵 생성
     async createOfficeMap() {
@@ -50,46 +36,31 @@ class PixelMapManager {
             this.mapContainer = new PIXI.Container();
             this.mapContainer.name = 'officeMap';
             
-            // 각 타일 생성
-            for (let row = 0; row < this.mapHeight; row++) {
-                for (let col = 0; col < this.mapWidth; col++) {
-                    const tileIndex = mapLayout[row][col];
-                    const x = col * this.tileSize;
-                    const y = row * this.tileSize;
-                    
-                    // 타일 스프라이트 생성
-                    const tileSprite = new PIXI.Sprite();
-                    
-                    // 실제 타일 이미지 로드
-                    const tilePath = `assets/tiles/tile_${tileIndex}.png`;
-                    const texture = await PIXI.Texture.from(tilePath);
-                    tileSprite.texture = texture;
-                    console.log(`✅ 타일 이미지 로드: ${tilePath}`);
-                    
-                    // 타일 위치 설정
-                    tileSprite.x = x;
-                    tileSprite.y = y;
-                    tileSprite.width = this.tileSize;
-                    tileSprite.height = this.tileSize;
-                    
-                    // 타일 정보 저장
-                    tileSprite.tileData = {
-                        row: row,
-                        col: col,
-                        tileIndex: tileIndex,
-                        areaName: areaNames[tileIndex]
-                    };
-                    
-                    // 컨테이너에 추가
-                    this.mapContainer.addChild(tileSprite);
-                    this.tileSprites.push(tileSprite);
-                }
-            }
+            // 전체 맵 이미지 로드
+            console.log(`🖼️ 전체 맵 이미지 로드: ${FULL_MAP_IMAGE}`);
+            const texture = await PIXI.Texture.from(FULL_MAP_IMAGE);
+            
+            // 맵 스프라이트 생성
+            this.mapSprite = new PIXI.Sprite(texture);
+            this.mapSprite.width = this.mapWidth;
+            this.mapSprite.height = this.mapHeight;
+            this.mapSprite.name = 'fullMap';
+            
+            // 맵 정보 저장
+            this.mapSprite.mapData = {
+                width: this.mapWidth,
+                height: this.mapHeight,
+                areas: areaNames,
+                imagePath: FULL_MAP_IMAGE
+            };
+            
+            // 컨테이너에 추가
+            this.mapContainer.addChild(this.mapSprite);
             
             // 스테이지에 맵 추가
             this.app.stage.addChild(this.mapContainer);
             
-            console.log(`✅ 사무실 맵 생성 완료! (${this.tileSprites.length}개 타일)`);
+            console.log(`✅ 사무실 맵 생성 완료! (${this.mapWidth}x${this.mapHeight}px)`);
             return this.mapContainer;
             
         } catch (error) {
@@ -104,7 +75,7 @@ class PixelMapManager {
             this.app.stage.removeChild(this.mapContainer);
             this.mapContainer.destroy({ children: true });
             this.mapContainer = null;
-            this.tileSprites = [];
+            this.mapSprite = null;
             console.log('🗑️ 맵 제거 완료');
         }
     }
@@ -114,28 +85,31 @@ class PixelMapManager {
         return {
             width: this.mapWidth,
             height: this.mapHeight,
-            tileSize: this.tileSize,
-            totalTiles: this.tileSprites.length,
+            totalPixels: this.mapWidth * this.mapHeight,
             areas: areaNames,
-            layout: mapLayout
+            imagePath: FULL_MAP_IMAGE,
+            type: 'full-image'
         };
     }
 
-    // 특정 위치의 타일 정보 반환
-    getTileAt(x, y) {
-        const col = Math.floor(x / this.tileSize);
-        const row = Math.floor(y / this.tileSize);
+    // 특정 위치의 구역 정보 반환 (마우스 클릭용)
+    getAreaAt(x, y) {
+        // 10x10 그리드 기준으로 구역 계산
+        const tileSize = this.mapWidth / 10; // 32px
+        const col = Math.floor(x / tileSize);
+        const row = Math.floor(y / tileSize);
         
-        if (row >= 0 && row < this.mapHeight && col >= 0 && col < this.mapWidth) {
-            const tileIndex = mapLayout[row][col];
-            return {
-                row: row,
-                col: col,
-                tileIndex: tileIndex,
-                areaName: areaNames[tileIndex],
-                worldX: col * this.tileSize,
-                worldY: row * this.tileSize
-            };
+        if (row >= 0 && row < 10 && col >= 0 && col < 10) {
+            // 구역별 좌표 범위
+            if (row < 5 && col < 5) {
+                return { area: 'meeting', name: areaNames.meeting, row, col };
+            } else if (row < 5 && col >= 5) {
+                return { area: 'cafeteria', name: areaNames.cafeteria, row, col };
+            } else if (row >= 5 && col < 5) {
+                return { area: 'seatA', name: areaNames.seatA, row, col };
+            } else {
+                return { area: 'seatB', name: areaNames.seatB, row, col };
+            }
         }
         return null;
     }
@@ -160,6 +134,13 @@ window.removeOfficeMap = function() {
 window.getMapInfo = function() {
     if (window.pixelMapManager) {
         return window.pixelMapManager.getMapInfo();
+    }
+    return null;
+};
+
+window.getAreaAt = function(x, y) {
+    if (window.pixelMapManager) {
+        return window.pixelMapManager.getAreaAt(x, y);
     }
     return null;
 };
