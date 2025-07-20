@@ -159,7 +159,7 @@
     </div>
 
     <!-- PixiJS -->
-    <script src="https://pixijs.download/release/pixi.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.3.2/pixi.min.js"></script>
     
     <!-- 픽셀 맵 모듈 -->
     <script src="js/pixel-map.js"></script>
@@ -174,8 +174,33 @@
                     app.destroy(true);
                 }
                 
-                // 더 간단한 설정으로 PixiJS 앱 생성
+                // DOM 컨테이너 확인
+                const container = document.getElementById('pixiContainer');
+                if (!container) {
+                    console.error('❌ pixiContainer를 찾을 수 없습니다');
+                    return false;
+                }
+                
+                // 기존 캔버스 제거
+                const existingCanvas = container.querySelector('canvas');
+                if (existingCanvas) {
+                    existingCanvas.remove();
+                }
+                
+                // 수동으로 캔버스 생성
+                const canvas = document.createElement('canvas');
+                canvas.width = 400;
+                canvas.height = 400;
+                canvas.style.border = '2px solid rgba(255, 255, 255, 0.3)';
+                canvas.style.borderRadius = '8px';
+                canvas.style.background = '#2C3E50';
+                
+                // DOM에 캔버스 추가
+                container.appendChild(canvas);
+                
+                // PixiJS 앱 생성 (기존 캔버스 사용)
                 app = new PIXI.Application({
+                    view: canvas,
                     width: 400,
                     height: 400,
                     backgroundColor: 0x2C3E50,
@@ -183,20 +208,12 @@
                     resolution: 1
                 });
                 
-                // DOM에 캔버스 추가
-                const container = document.getElementById('pixiContainer');
-                if (container) {
-                    container.appendChild(app.view);
-                    
-                    // 전역 app 객체 설정
-                    window.app = app;
-                    
-                    console.log('🎮 PixiJS 앱 초기화 완료');
-                    return true;
-                } else {
-                    console.error('❌ pixiContainer를 찾을 수 없습니다');
-                    return false;
-                }
+                // 전역 app 객체 설정
+                window.app = app;
+                
+                console.log('🎮 PixiJS 앱 초기화 완료');
+                return true;
+                
             } catch (error) {
                 console.error('❌ PixiJS 앱 초기화 실패:', error);
                 return false;
