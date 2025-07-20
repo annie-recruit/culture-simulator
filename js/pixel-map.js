@@ -126,25 +126,9 @@ class PixelMapManager {
                     // 타일 스프라이트 생성
                     const tileSprite = new PIXI.Sprite();
                     
-                    // 실제 타일 이미지 로드 시도 (CORS 문제 해결)
-                    const tilePath = `assets/tiles/tile_${tileIndex}.png`;
-                    
-                    try {
-                        // 이미지 로드 전에 존재 여부 확인
-                        const response = await fetch(tilePath, { method: 'HEAD' });
-                        if (response.ok) {
-                            // 실제 이미지 로드
-                            const texture = await PIXI.Texture.from(tilePath);
-                            tileSprite.texture = texture;
-                            console.log(`✅ 타일 이미지 로드 성공: ${tilePath}`);
-                        } else {
-                            throw new Error('이미지 파일이 존재하지 않습니다');
-                        }
-                    } catch (error) {
-                        // 폴백: 색상 기반 타일 생성
-                        console.log(`🎨 폴백 타일 생성: ${tileIndex} (${areaNames[tileIndex]})`);
-                        tileSprite.texture = this.createTileTexture(tileIndex);
-                    }
+                    // 폴백 타일 생성 (CORS 문제 해결을 위해 바로 폴백 사용)
+                    console.log(`🎨 타일 생성: ${tileIndex} (${areaNames[tileIndex]})`);
+                    tileSprite.texture = this.createTileTexture(tileIndex);
                     
                     // 타일 위치 설정
                     tileSprite.x = x;
