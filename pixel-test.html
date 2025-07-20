@@ -362,9 +362,11 @@
             const characters = window.characterManager.characters;
             const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
             
-            // 랜덤 위치 생성 (맵 내부)
-            const randomX = Math.random() * 320;
-            const randomY = Math.random() * 320;
+            // 맵 중앙 배치를 고려한 랜덤 위치 생성
+            const mapOffsetX = 40;
+            const mapOffsetY = 40;
+            const randomX = mapOffsetX + Math.random() * 320;
+            const randomY = mapOffsetY + Math.random() * 320;
             
             window.moveCharacter(randomCharacter, randomX, randomY);
             console.log(`🎲 랜덤 이동: ${randomCharacter.name} → (${randomX}, ${randomY})`);

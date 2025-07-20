@@ -215,11 +215,15 @@ class CharacterManager {
         try {
             console.log('🎭 샘플 캐릭터들 생성 시작...');
             
-            // 각 구역에 캐릭터 배치
-            await this.addCharacter('PO', 80, 80, '김PO'); // 미팅룸
-            await this.addCharacter('PD', 240, 80, '박PD'); // 카페테리아
-            await this.addCharacter('IOS_DEV', 80, 240, '이iOS'); // 좌석A
-            await this.addCharacter('SERVER_DEV', 240, 240, '최서버'); // 좌석B
+            // 맵 중앙 배치를 고려한 위치 계산 (400x400 캔버스, 320x320 맵)
+            const mapOffsetX = (400 - 320) / 2; // 40
+            const mapOffsetY = (400 - 320) / 2; // 40
+            
+            // 각 구역에 캐릭터 배치 (맵 기준 + 오프셋)
+            await this.addCharacter('PO', mapOffsetX + 80, mapOffsetY + 80, '김PO'); // 미팅룸
+            await this.addCharacter('PD', mapOffsetX + 240, mapOffsetY + 80, '박PD'); // 카페테리아
+            await this.addCharacter('IOS_DEV', mapOffsetX + 80, mapOffsetY + 240, '이iOS'); // 좌석A
+            await this.addCharacter('SERVER_DEV', mapOffsetX + 240, mapOffsetY + 240, '최서버'); // 좌석B
             
             console.log('✅ 샘플 캐릭터들 생성 완료');
             
