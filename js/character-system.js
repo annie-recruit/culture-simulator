@@ -134,15 +134,26 @@ class CharacterManager {
     // 캐릭터 컨테이너 생성
     createCharacterContainer() {
         if (this.characterContainer) {
-            this.app.stage.removeChild(this.characterContainer);
+            // 맵 컨테이너에서 제거
+            if (window.pixelMapManager && window.pixelMapManager.mapContainer) {
+                window.pixelMapManager.mapContainer.removeChild(this.characterContainer);
+            } else {
+                this.app.stage.removeChild(this.characterContainer);
+            }
             this.characterContainer.destroy({ children: true });
         }
         
         this.characterContainer = new PIXI.Container();
         this.characterContainer.name = 'characterContainer';
-        this.app.stage.addChild(this.characterContainer);
         
-        console.log('📦 캐릭터 컨테이너 생성 완료');
+        // 맵 컨테이너가 있으면 맵의 자식으로, 없으면 스테이지에 직접 추가
+        if (window.pixelMapManager && window.pixelMapManager.mapContainer) {
+            window.pixelMapManager.mapContainer.addChild(this.characterContainer);
+            console.log('📦 캐릭터 컨테이너를 맵 컨테이너의 자식으로 생성 완료');
+        } else {
+            this.app.stage.addChild(this.characterContainer);
+            console.log('📦 캐릭터 컨테이너를 스테이지에 직접 생성 완료');
+        }
     }
 
     // 캐릭터 추가
@@ -226,10 +237,11 @@ class CharacterManager {
             const mapWidth = 256;
             const mapHeight = 224;
             
-            // 미팅룸 하단에 가로로 1열 배치 (원본 크기에 맞춤)
-            const startX = 20; // 시작 X 위치
-            const y = 100; // 미팅룸 하단 Y 위치
-            const spacing = 25; // 캐릭터 간 간격 (원본 크기에 맞춤)
+            // 256x224 맵에서 미팅룸 하단에 가로로 1열 배치
+            // 미팅룸은 맵의 왼쪽 하단 영역 (0-128 x 112-224)
+            const startX = 40; // 미팅룸 영역 내 시작 X 위치
+            const y = 180; // 미팅룸 하단 Y 위치 (224 높이의 하단)
+            const spacing = 35; // 캐릭터 간 간격
             
             await this.addCharacter('PO', startX, y, '김PO'); // 첫 번째
             await this.addCharacter('PD', startX + spacing, y, '박PD'); // 두 번째
