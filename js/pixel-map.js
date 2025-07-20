@@ -15,14 +15,6 @@ const mapLayout = [
     [3, 3, 3, 3, 3, 4, 4, 4, 4, 4],
 ];
 
-// 구역별 색상 정의 (폴백용)
-const areaColors = {
-    1: 0x4A90E2, // 미팅룸 - 파란색
-    2: 0x7ED321, // 카페테리아 - 초록색
-    3: 0xF5A623, // 좌석A - 주황색
-    4: 0x9013FE  // 좌석B - 보라색
-};
-
 // 구역별 이름
 const areaNames = {
     1: '미팅룸',
@@ -44,65 +36,7 @@ class PixelMapManager {
         console.log(`📏 맵 크기: ${this.mapWidth}x${this.mapHeight} (${this.tileSize}px 타일)`);
     }
 
-    // 타일 텍스처 생성 (폴백용)
-    createTileTexture(tileIndex) {
-        const graphics = new PIXI.Graphics();
-        const color = areaColors[tileIndex] || 0xCCCCCC;
-        const areaName = areaNames[tileIndex] || 'Unknown';
-        
-        // 타일 배경 (그라데이션 효과)
-        graphics.beginFill(color);
-        graphics.drawRect(0, 0, this.tileSize, this.tileSize);
-        graphics.endFill();
-        
-        // 하이라이트 효과 (상단)
-        const highlightColor = this.lightenColor(color, 0.3);
-        graphics.beginFill(highlightColor);
-        graphics.drawRect(0, 0, this.tileSize, 4);
-        graphics.endFill();
-        
-        // 그림자 효과 (하단)
-        const shadowColor = this.darkenColor(color, 0.3);
-        graphics.beginFill(shadowColor);
-        graphics.drawRect(0, this.tileSize - 4, this.tileSize, 4);
-        graphics.endFill();
-        
-        // 타일 테두리
-        graphics.lineStyle(1, 0x333333, 0.5);
-        graphics.drawRect(0, 0, this.tileSize, this.tileSize);
-        
-        // 구역 이름 표시 (작은 텍스트)
-        const text = new PIXI.Text(areaName.substring(0, 2), {
-            fontSize: 8,
-            fill: 0xFFFFFF,
-            fontWeight: 'bold',
-            dropShadow: true,
-            dropShadowColor: 0x000000,
-            dropShadowDistance: 1
-        });
-        text.anchor.set(0.5);
-        text.x = this.tileSize / 2;
-        text.y = this.tileSize / 2;
-        graphics.addChild(text);
-        
-        return this.app.renderer.generateTexture(graphics);
-    }
-    
-    // 색상을 밝게 만드는 헬퍼 함수
-    lightenColor(color, amount) {
-        const r = Math.min(255, ((color >> 16) & 255) + (255 * amount));
-        const g = Math.min(255, ((color >> 8) & 255) + (255 * amount));
-        const b = Math.min(255, (color & 255) + (255 * amount));
-        return (r << 16) | (g << 8) | b;
-    }
-    
-    // 색상을 어둡게 만드는 헬퍼 함수
-    darkenColor(color, amount) {
-        const r = Math.max(0, ((color >> 16) & 255) - (255 * amount));
-        const g = Math.max(0, ((color >> 8) & 255) - (255 * amount));
-        const b = Math.max(0, (color & 255) - (255 * amount));
-        return (r << 16) | (g << 8) | b;
-    }
+
 
     // 맵 생성
     async createOfficeMap() {
@@ -126,9 +60,11 @@ class PixelMapManager {
                     // 타일 스프라이트 생성
                     const tileSprite = new PIXI.Sprite();
                     
-                    // 폴백 타일 생성 (CORS 문제 해결을 위해 바로 폴백 사용)
-                    console.log(`🎨 타일 생성: ${tileIndex} (${areaNames[tileIndex]})`);
-                    tileSprite.texture = this.createTileTexture(tileIndex);
+                    // 실제 타일 이미지 로드
+                    const tilePath = `assets/tiles/tile_${tileIndex}.png`;
+                    const texture = await PIXI.Texture.from(tilePath);
+                    tileSprite.texture = texture;
+                    console.log(`✅ 타일 이미지 로드: ${tilePath}`);
                     
                     // 타일 위치 설정
                     tileSprite.x = x;
