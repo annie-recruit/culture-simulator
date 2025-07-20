@@ -120,6 +120,14 @@
             <button onclick="destroyMap()" class="danger">맵 제거</button>
             <button onclick="showMapInfo()">맵 정보</button>
             <button onclick="toggleFullscreen()">전체화면</button>
+            
+            <hr style="margin: 15px 0; border: none; border-top: 1px solid rgba(255,255,255,0.2);">
+            
+            <h3>👥 캐릭터 컨트롤</h3>
+            <button onclick="createCharacters()">캐릭터 생성</button>
+            <button onclick="removeCharacters()" class="danger">캐릭터 제거</button>
+            <button onclick="showCharacterInfo()">캐릭터 정보</button>
+            <button onclick="moveRandomCharacter()">랜덤 이동</button>
         </div>
         
         <div class="map-container">
@@ -163,6 +171,9 @@
     
     <!-- 픽셀 맵 모듈 -->
     <script src="js/pixel-map.js"></script>
+    
+    <!-- 캐릭터 시스템 -->
+    <script src="js/character-system.js"></script>
     
     <script>
         // PixiJS 앱 초기화
@@ -256,6 +267,9 @@
                     console.log('📍 맵 중앙 배치 완료:', centerX, centerY);
                 }
                 
+                // 애니메이션 루프 시작
+                startAnimationLoop();
+                
             } catch (error) {
                 console.error('❌ 맵 생성 실패:', error);
                 alert('맵 생성에 실패했습니다: ' + error.message);
@@ -285,6 +299,84 @@
                 document.documentElement.requestFullscreen();
             } else {
                 document.exitFullscreen();
+            }
+        }
+        
+        // 캐릭터 생성
+        async function createCharacters() {
+            try {
+                console.log('👥 캐릭터 생성 시작...');
+                
+                // PixiJS 앱 확인
+                if (!app) {
+                    throw new Error('PixiJS 앱이 초기화되지 않았습니다. 먼저 맵을 생성해주세요.');
+                }
+                
+                // 캐릭터 매니저 초기화
+                if (!window.characterManager) {
+                    window.createCharacterManager(app);
+                    console.log('👥 캐릭터 매니저 초기화 완료');
+                }
+                
+                // 샘플 캐릭터들 생성
+                await window.createSampleCharacters();
+                console.log('✅ 캐릭터 생성 완료');
+                
+            } catch (error) {
+                console.error('❌ 캐릭터 생성 실패:', error);
+                alert('캐릭터 생성에 실패했습니다: ' + error.message);
+            }
+        }
+        
+        // 캐릭터 제거
+        function removeCharacters() {
+            if (window.characterManager) {
+                window.characterManager.removeAllCharacters();
+                console.log('🗑️ 캐릭터 제거 완료');
+            } else {
+                alert('캐릭터 매니저가 초기화되지 않았습니다.');
+            }
+        }
+        
+        // 캐릭터 정보 표시
+        function showCharacterInfo() {
+            const characters = window.getCharactersInfo();
+            if (characters.length > 0) {
+                console.log('👥 캐릭터 정보:', characters);
+                const infoText = characters.map(char => 
+                    `${char.name} (${char.description})\n- 위치: (${char.position.x}, ${char.position.y})\n- 이동중: ${char.isMoving ? '예' : '아니오'}`
+                ).join('\n\n');
+                alert(`캐릭터 정보 (${characters.length}명):\n\n${infoText}`);
+            } else {
+                alert('캐릭터가 생성되지 않았습니다.');
+            }
+        }
+        
+        // 랜덤 캐릭터 이동
+        function moveRandomCharacter() {
+            if (!window.characterManager || window.characterManager.characters.length === 0) {
+                alert('캐릭터가 생성되지 않았습니다.');
+                return;
+            }
+            
+            const characters = window.characterManager.characters;
+            const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
+            
+            // 랜덤 위치 생성 (맵 내부)
+            const randomX = Math.random() * 320;
+            const randomY = Math.random() * 320;
+            
+            window.moveCharacter(randomCharacter, randomX, randomY);
+            console.log(`🎲 랜덤 이동: ${randomCharacter.name} → (${randomX}, ${randomY})`);
+        }
+        
+        // 애니메이션 루프 (캐릭터 이동용)
+        function startAnimationLoop() {
+            if (app && window.characterManager) {
+                app.ticker.add(() => {
+                    window.characterManager.update();
+                });
+                console.log('🔄 애니메이션 루프 시작');
             }
         }
         
