@@ -2,7 +2,7 @@
 console.log('🎮 픽셀 맵 시스템 로드 시작');
 
 // 전체 맵 이미지 경로
-const FULL_MAP_IMAGE = 'assets/full.png';
+const FULL_MAP_IMAGE = 'assets/tiles/full.png';
 
 // 구역별 이름 (전체 맵 기준)
 const areaNames = {
