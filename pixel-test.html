@@ -174,19 +174,19 @@
                     app.destroy(true);
                 }
                 
+                // 더 간단한 설정으로 PixiJS 앱 생성
                 app = new PIXI.Application({
                     width: 400,
                     height: 400,
                     backgroundColor: 0x2C3E50,
                     antialias: false,
-                    resolution: 1,
-                    autoDensity: true,
-                    powerPreference: "high-performance"
+                    resolution: 1
                 });
                 
-                // app.view가 준비될 때까지 기다림
-                if (app.view) {
-                    document.getElementById('pixiContainer').appendChild(app.view);
+                // DOM에 캔버스 추가
+                const container = document.getElementById('pixiContainer');
+                if (container) {
+                    container.appendChild(app.view);
                     
                     // 전역 app 객체 설정
                     window.app = app;
@@ -194,7 +194,7 @@
                     console.log('🎮 PixiJS 앱 초기화 완료');
                     return true;
                 } else {
-                    console.error('❌ PixiJS 앱 view 생성 실패');
+                    console.error('❌ pixiContainer를 찾을 수 없습니다');
                     return false;
                 }
             } catch (error) {
@@ -209,11 +209,16 @@
                 console.log('🏗️ 맵 생성 시작...');
                 
                 // PixiJS 앱 초기화
-                if (!app || !app.view) {
+                if (!app) {
                     const initSuccess = initPixiApp();
                     if (!initSuccess) {
                         throw new Error('PixiJS 앱 초기화 실패');
                     }
+                }
+                
+                // app 객체 확인
+                if (!app || !app.stage) {
+                    throw new Error('PixiJS 앱가 제대로 초기화되지 않았습니다');
                 }
                 
                 // PixelMapManager 초기화
@@ -274,6 +279,14 @@
             if (typeof PIXI !== 'undefined') {
                 console.log('✅ PixiJS 로드 확인됨');
                 console.log('📦 PIXI 버전:', PIXI.VERSION);
+                
+                // DOM 요소 확인
+                const container = document.getElementById('pixiContainer');
+                if (container) {
+                    console.log('✅ pixiContainer 요소 확인됨');
+                } else {
+                    console.error('❌ pixiContainer 요소를 찾을 수 없습니다');
+                }
             } else {
                 console.error('❌ PixiJS 로드 실패');
                 alert('PixiJS 라이브러리 로드에 실패했습니다. 페이지를 새로고침해주세요.');
