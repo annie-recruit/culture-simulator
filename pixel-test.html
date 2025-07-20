@@ -196,14 +196,21 @@
                     initPixiApp();
                 }
                 
+                // PixelMapManager 초기화
+                if (!window.pixelMapManager) {
+                    window.pixelMapManager = new PixelMapManager(app);
+                }
+                
                 const mapContainer = await window.createOfficeMap();
                 console.log('✅ 맵 생성 완료:', mapContainer);
                 
                 // 맵을 중앙에 배치
-                mapContainer.position.set(
-                    (app.screen.width - mapContainer.width) / 2,
-                    (app.screen.height - mapContainer.height) / 2
-                );
+                if (mapContainer) {
+                    mapContainer.position.set(
+                        (app.screen.width - mapContainer.width) / 2,
+                        (app.screen.height - mapContainer.height) / 2
+                    );
+                }
                 
             } catch (error) {
                 console.error('❌ 맵 생성 실패:', error);
@@ -213,16 +220,16 @@
         
         // 맵 제거
         function destroyMap() {
-            window.destroyOfficeMap();
+            window.removeOfficeMap();
             console.log('🗑️ 맵 제거 완료');
         }
         
         // 맵 정보 표시
         function showMapInfo() {
-            if (window.pixelOfficeMap) {
-                const info = window.pixelOfficeMap.getMapInfo();
+            const info = window.getMapInfo();
+            if (info) {
                 console.log('📋 맵 정보:', info);
-                alert(`맵 정보:\n- 크기: ${info.width}x${info.height}\n- 타일 크기: ${info.tileSize}x${info.tileSize}\n- 구역 수: ${Object.keys(info.areas).length}`);
+                alert(`맵 정보:\n- 크기: ${info.width}x${info.height}\n- 타일 크기: ${info.tileSize}x${info.tileSize}\n- 총 타일 수: ${info.totalTiles}\n- 구역 수: ${Object.keys(info.areas).length}`);
             } else {
                 alert('맵이 생성되지 않았습니다.');
             }
