@@ -47,9 +47,9 @@ class Character {
             const texture = await PIXI.Texture.from(CHARACTER_TYPES[this.type].image);
             this.sprite = new PIXI.Sprite(texture);
             
-            // 원본 크기 그대로 사용
-            this.sprite.width = texture.width;
-            this.sprite.height = texture.height;
+            // 원본 크기에서 25% 확대
+            this.sprite.width = texture.width * 1.25;
+            this.sprite.height = texture.height * 1.25;
             
             // 중심 기준으로 설정
             this.sprite.anchor.set(0.5);
@@ -233,15 +233,15 @@ class CharacterManager {
         try {
             console.log('🎭 샘플 캐릭터들 생성 시작...');
             
-            // 새로운 맵 크기 (256x224)에 맞춰 위치 계산
-            const mapWidth = 256;
-            const mapHeight = 224;
+            // 새로운 맵 크기 (320x280)에 맞춰 위치 계산 (25% 확대)
+            const mapWidth = 320;
+            const mapHeight = 280;
             
-            // 256x224 맵에서 미팅룸 하단에 가로로 1열 배치
-            // 미팅룸은 맵의 왼쪽 하단 영역 (0-128 x 112-224)
-            const startX = 40; // 미팅룸 영역 내 시작 X 위치
-            const y = 180; // 미팅룸 하단 Y 위치 (224 높이의 하단)
-            const spacing = 35; // 캐릭터 간 간격
+            // 320x280 맵에서 미팅룸 하단에 가로로 1열 배치 (25% 확대)
+            // 미팅룸은 맵의 왼쪽 하단 영역 (0-160 x 140-280)
+            const startX = 50; // 미팅룸 영역 내 시작 X 위치 (40 * 1.25)
+            const y = 225; // 미팅룸 하단 Y 위치 (180 * 1.25)
+            const spacing = 44; // 캐릭터 간 간격 (35 * 1.25)
             
             await this.addCharacter('PO', startX, y, '김PO'); // 첫 번째
             await this.addCharacter('PD', startX + spacing, y, '박PD'); // 두 번째

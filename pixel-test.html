@@ -367,9 +367,9 @@
             const characters = window.characterManager.characters;
             const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
             
-            // 256x224 맵 기준으로 랜덤 위치 생성
-            const randomX = Math.random() * 256;
-            const randomY = Math.random() * 224;
+            // 320x280 맵 기준으로 랜덤 위치 생성 (25% 확대)
+            const randomX = Math.random() * 320;
+            const randomY = Math.random() * 280;
             
             window.moveCharacter(randomCharacter, randomX, randomY);
             console.log(`🎲 랜덤 이동: ${randomCharacter.name} → (${randomX}, ${randomY})`);

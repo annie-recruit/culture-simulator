@@ -17,8 +17,8 @@ class PixelMapManager {
         this.app = app;
         this.mapContainer = null;
         this.mapSprite = null;
-        this.mapWidth = 256; // full.png 실제 너비
-        this.mapHeight = 224; // full.png 실제 높이
+        this.mapWidth = 320; // 256 * 1.25 = 320 (25% 확대)
+        this.mapHeight = 280; // 224 * 1.25 = 280 (25% 확대)
         
         console.log('🗺️ 픽셀 맵 매니저 초기화 완료');
         console.log(`📏 맵 크기: ${this.mapWidth}x${this.mapHeight}px`);
