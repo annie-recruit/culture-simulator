@@ -47,16 +47,16 @@ class Character {
             const texture = await PIXI.Texture.from(CHARACTER_TYPES[this.type].image);
             this.sprite = new PIXI.Sprite(texture);
             
-            // 비율 유지하며 크기 조정 (32px 기준)
-            const scale = 32 / Math.max(texture.width, texture.height);
-            this.sprite.scale.set(scale);
+            // 2048x2048 맵에 맞춘 400x400 캐릭터 크기 그대로 사용
+            this.sprite.width = 400;
+            this.sprite.height = 400;
             
             // 중심 기준으로 설정
             this.sprite.anchor.set(0.5);
             
-            // 위치 설정 (타일 중심에 배치)
-            this.sprite.x = this.x + 16;
-            this.sprite.y = this.y + 16;
+            // 위치 설정 (맵 크기에 맞게 조정)
+            this.sprite.x = this.x + 200; // 400/2
+            this.sprite.y = this.y + 200; // 400/2
             
             // 캐릭터 정보 저장
             this.sprite.characterData = {
@@ -64,10 +64,10 @@ class Character {
                 name: this.name,
                 description: CHARACTER_TYPES[this.type].description,
                 originalSize: { width: texture.width, height: texture.height },
-                scale: scale
+                scale: 1.0
             };
             
-            console.log(`✅ 캐릭터 스프라이트 생성: ${this.name} (원본: ${texture.width}x${texture.height}, 스케일: ${scale.toFixed(2)})`);
+            console.log(`✅ 캐릭터 스프라이트 생성: ${this.name} (원본: ${texture.width}x${texture.height}, 크기: 400x400)`);
             return this.sprite;
             
         } catch (error) {
@@ -94,15 +94,15 @@ class Character {
             if (distance > 1) {
                 this.x += (dx / distance) * this.speed;
                 this.y += (dy / distance) * this.speed;
-                // 중심 기준 위치 업데이트
-                this.sprite.x = this.x + 16;
-                this.sprite.y = this.y + 16;
+                // 중심 기준 위치 업데이트 (400x400 크기)
+                this.sprite.x = this.x + 200;
+                this.sprite.y = this.y + 200;
             } else {
                 this.x = this.targetX;
                 this.y = this.targetY;
-                // 중심 기준 위치 업데이트
-                this.sprite.x = this.x + 16;
-                this.sprite.y = this.y + 16;
+                // 중심 기준 위치 업데이트 (400x400 크기)
+                this.sprite.x = this.x + 200;
+                this.sprite.y = this.y + 200;
                 this.isMoving = false;
                 console.log(`✅ ${this.name} 이동 완료`);
             }
@@ -222,15 +222,15 @@ class CharacterManager {
         try {
             console.log('🎭 샘플 캐릭터들 생성 시작...');
             
-            // 맵 중앙 배치를 고려한 위치 계산 (400x400 캔버스, 320x320 맵)
-            const mapOffsetX = (400 - 320) / 2; // 40
-            const mapOffsetY = (400 - 320) / 2; // 40
+            // 2048x2048 맵 기준으로 위치 계산
+            const mapWidth = 2048;
+            const mapHeight = 2048;
             
-            // 각 구역에 캐릭터 배치 (맵 기준 + 오프셋)
-            await this.addCharacter('PO', mapOffsetX + 80, mapOffsetY + 80, '김PO'); // 미팅룸
-            await this.addCharacter('PD', mapOffsetX + 240, mapOffsetY + 80, '박PD'); // 카페테리아
-            await this.addCharacter('DEV1', mapOffsetX + 80, mapOffsetY + 240, '이개발'); // 좌석A
-            await this.addCharacter('DEV2', mapOffsetX + 240, mapOffsetY + 240, '최개발'); // 좌석B
+            // 각 구역에 캐릭터 배치 (2048x2048 맵 기준)
+            await this.addCharacter('PO', 512, 512, '김PO'); // 미팅룸 (좌상단)
+            await this.addCharacter('PD', 1536, 512, '박PD'); // 카페테리아 (우상단)
+            await this.addCharacter('DEV1', 512, 1536, '이개발'); // 좌석A (좌하단)
+            await this.addCharacter('DEV2', 1536, 1536, '최개발'); // 좌석B (우하단)
             
             console.log('✅ 샘플 캐릭터들 생성 완료');
             
