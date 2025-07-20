@@ -128,14 +128,6 @@
             <button onclick="removeCharacters()" class="danger">캐릭터 제거</button>
             <button onclick="showCharacterInfo()">캐릭터 정보</button>
             <button onclick="moveRandomCharacter()">랜덤 이동</button>
-            
-            <hr style="margin: 15px 0; border: none; border-top: 1px solid rgba(255,255,255,0.2);">
-            
-            <h3>💬 말풍선 컨트롤</h3>
-            <button onclick="initSpeechBubble()">말풍선 초기화</button>
-            <button onclick="playSampleDialogue()">샘플 대화</button>
-            <button onclick="hideAllBubbles()">말풍선 숨김</button>
-            <button onclick="testIndividualSpeak()">개별 말하기</button>
         </div>
         
         <div class="map-container">
@@ -182,9 +174,6 @@
     
     <!-- 캐릭터 시스템 -->
     <script src="js/character-system.js"></script>
-    
-    <!-- 말풍선 시스템 -->
-    <script src="js/speech-bubble-system.js"></script>
     
     <script>
         // PixiJS 앱 초기화
@@ -378,9 +367,9 @@
             const characters = window.characterManager.characters;
             const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
             
-            // 320x320 맵 기준으로 랜덤 위치 생성
-            const randomX = Math.random() * 320;
-            const randomY = Math.random() * 320;
+            // 256x224 맵 기준으로 랜덤 위치 생성
+            const randomX = Math.random() * 256;
+            const randomY = Math.random() * 224;
             
             window.moveCharacter(randomCharacter, randomX, randomY);
             console.log(`🎲 랜덤 이동: ${randomCharacter.name} → (${randomX}, ${randomY})`);
@@ -391,92 +380,12 @@
             if (app && window.characterManager) {
                 app.ticker.add(() => {
                     window.characterManager.update();
-                    // 말풍선 위치 업데이트
-                    if (window.speechBubbleManager) {
-                        window.speechBubbleManager.updateBubblePositions();
-                    }
                 });
                 console.log('🔄 애니메이션 루프 시작');
             }
         }
         
-        // 말풍선 초기화
-        function initSpeechBubble() {
-            try {
-                console.log('💬 말풍선 시스템 초기화 시작...');
-                
-                // PixiJS 앱 확인
-                if (!app) {
-                    throw new Error('PixiJS 앱이 초기화되지 않았습니다.');
-                }
-                
-                // 말풍선 매니저 초기화
-                window.createSpeechBubbleManager(app);
-                console.log('✅ 말풍선 시스템 초기화 완료');
-                
-            } catch (error) {
-                console.error('❌ 말풍선 시스템 초기화 실패:', error);
-                alert('말풍선 시스템 초기화에 실패했습니다: ' + error.message);
-            }
-        }
-        
-        // 샘플 대화 재생
-        async function playSampleDialogue() {
-            try {
-                if (!window.speechBubbleManager) {
-                    throw new Error('말풍선 시스템이 초기화되지 않았습니다.');
-                }
-                
-                await window.playSampleDialogue();
-                console.log('✅ 샘플 대화 재생 완료');
-                
-            } catch (error) {
-                console.error('❌ 샘플 대화 재생 실패:', error);
-                alert('샘플 대화 재생에 실패했습니다: ' + error.message);
-            }
-        }
-        
-        // 모든 말풍선 숨김
-        function hideAllBubbles() {
-            if (window.speechBubbleManager) {
-                window.hideAllBubbles();
-                console.log('💬 모든 말풍선 숨김');
-            } else {
-                alert('말풍선 시스템이 초기화되지 않았습니다.');
-            }
-        }
-        
-        // 개별 캐릭터 말하기 테스트
-        async function testIndividualSpeak() {
-            try {
-                if (!window.speechBubbleManager || !window.characterManager) {
-                    throw new Error('말풍선 시스템 또는 캐릭터 매니저가 초기화되지 않았습니다.');
-                }
-                
-                const characters = window.characterManager.characters;
-                if (characters.length === 0) {
-                    throw new Error('캐릭터가 생성되지 않았습니다.');
-                }
-                
-                // 랜덤 캐릭터 선택
-                const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
-                const messages = [
-                    '안녕하세요!',
-                    '오늘 날씨 좋네요!',
-                    '회의 준비됐나요?',
-                    '커피 한 잔 할까요?',
-                    '좋은 하루 되세요!'
-                ];
-                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-                
-                await window.speak(randomCharacter, randomMessage, 2000);
-                console.log(`💬 ${randomCharacter.name} 말하기: "${randomMessage}"`);
-                
-            } catch (error) {
-                console.error('❌ 개별 말하기 테스트 실패:', error);
-                alert('개별 말하기 테스트에 실패했습니다: ' + error.message);
-            }
-        }
+
         
         // 페이지 로드 시 초기화
         window.addEventListener('load', () => {
