@@ -1,17 +1,17 @@
-// 마카롱팩토리 컬처핏 시나리오 데이터
+// 조직 협업 시뮬레이터 시나리오 데이터
 const scenarios = {
-    // 시나리오 1: 정비소 파트너 불만 처리
+    // 시나리오 1: 파트너 불만 처리
     scenario1: {
         id: 1,
-        title: "정비소 파트너 불만 해결",
+        title: "파트너 불만 해결",
         time: "09:30 AM",
-        description: "정비소 파트너가 마이클 앱의 수수료 정책에 불만을 제기했습니다.",
+        description: "파트너가 O2O 서비스의 수수료 정책에 불만을 제기했습니다.",
         messages: [
             {
                 id: 1,
                 sender: "지훈 (PO)",
                 avatar: "PO",
-                content: "어제 강남구 정비소 사장님이 연락을 주셨어요. 마이클 앱 수수료가 타 플랫폼 대비 높다고 하시면서, 계약 재검토를 요청하셨습니다. 이미 5년간 함께 해온 파트너인데... 어떻게 접근하면 좋을까요?",
+                content: "어제 주요 파트너 사장님이 연락을 주셨어요. 우리 서비스 수수료가 타 플랫폼 대비 높다고 하시면서, 계약 재검토를 요청하셨습니다. 이미 5년간 함께 해온 파트너인데... 어떻게 접근하면 좋을까요?",
                 isUser: false,
                 delay: 1000
             },
@@ -41,7 +41,7 @@ const scenarios = {
                 nextMessage: {
                     sender: "지훈 (PO)",
                     avatar: "PO",
-                    content: "좋은 접근이네요! 파트너십은 마카롱팩토리의 핵심 가치죠. 장기적인 관점에서 상생할 수 있는 방안을 찾아보겠습니다.",
+                    content: "좋은 접근이네요! 파트너십은 우리 조직의 핵심 가치죠. 장기적인 관점에서 상생할 수 있는 방안을 찾아보겠습니다.",
                     isUser: false
                 }
             },
@@ -83,7 +83,7 @@ const scenarios = {
                 id: 1,
                 sender: "지훈 (PO)",
                 avatar: "PO",
-                content: "CS팀에서 보고받은 건인데, 최근 한 달간 예약 취소 관련 문의가 30% 증가했어요. 고객들이 취소 과정이 복잡하다고 하네요. 현재는 앱에서 취소하려면 정비소에 전화 확인 후 처리되는 구조잖아요?",
+                content: "CS팀에서 보고받은 건인데, 최근 한 달간 예약 취소 관련 문의가 30% 증가했어요. 고객들이 취소 과정이 복잡하다고 하네요. 현재는 앱에서 취소하려면 파트너에게 전화 확인 후 처리되는 구조잖아요?",
                 isUser: false,
                 delay: 1000
             },
@@ -91,7 +91,7 @@ const scenarios = {
                 id: 2,
                 sender: "민지 (iOS Developer)",
                 avatar: "DEV",
-                content: "기술적으로는 원클릭 취소가 가능해요. 하지만 정비소 입장에서는 갑작스러운 취소로 인한 손실을 걱정할 수 있어요.",
+                content: "기술적으로는 원클릭 취소가 가능해요. 하지만 파트너 입장에서는 갑작스러운 취소로 인한 손실을 걱정할 수 있어요.",
                 isUser: false,
                 delay: 2000
             },
@@ -119,7 +119,7 @@ const scenarios = {
             },
             {
                 id: "2b", 
-                text: "정비소 파트너들의 손실을 최소화하는 게 우선이에요. 현재 정책을 유지하되 CS 응답 시간을 단축시키는 방향으로 개선해보죠.",
+                text: "파트너들의 손실을 최소화하는 게 우선이에요. 현재 정책을 유지하되 CS 응답 시간을 단축시키는 방향으로 개선해보죠.",
                 points: { customer: 3, partnership: 10, innovation: 3, growth: 3, efficiency: 5 },
                 isCultureFit: false,
                 nextMessage: {
@@ -147,15 +147,15 @@ const scenarios = {
     // 시나리오 3: 혁신적인 기능 제안
     scenario3: {
         id: 3,
-        title: "AI 기반 정비 진단 기능 제안",
+        title: "AI 기반 진단 기능 제안",
         time: "14:30 PM",
-        description: "개발팀에서 AI를 활용한 정비 사전 진단 기능을 제안했습니다.",
+        description: "개발팀에서 AI를 활용한 사전 진단 기능을 제안했습니다.",
         messages: [
             {
                 id: 1,
                 sender: "준호 (Server Developer)",
                 avatar: "DEV",
-                content: "최근 ChatGPT나 Claude 같은 AI가 발전하면서, 마이클 앱에도 AI 기능을 도입해보면 어떨까 생각했어요. 고객이 차량 증상을 설명하면 AI가 예상 정비 항목과 비용을 미리 알려주는 기능이요.",
+                content: "최근 ChatGPT나 Claude 같은 AI가 발전하면서, 우리 서비스에도 AI 기능을 도입해보면 어떨까 생각했어요. 고객이 증상을 설명하면 AI가 예상 항목과 비용을 미리 알려주는 기능이요.",
                 isUser: false,
                 delay: 1000
             },
@@ -163,7 +163,7 @@ const scenarios = {
                 id: 2,
                 sender: "민지 (iOS Developer)",
                 avatar: "DEV",
-                content: "기술적으로 흥미로운 아이디어네요! 하지만 AI가 잘못 진단하면 고객이나 정비소 모두 곤란할 수 있어요. 책임 소재도 애매하고...",
+                content: "기술적으로 흥미로운 아이디어네요! 하지만 AI가 잘못 진단하면 고객이나 파트너 모두 곤란할 수 있어요. 책임 소재도 애매하고...",
                 isUser: false,
                 delay: 2000
             },
@@ -179,7 +179,7 @@ const scenarios = {
         choices: [
             {
                 id: "3a",
-                text: "아직은 리스크가 너무 커요. AI 진단이 틀렸을 때의 법적 책임 문제나 정비소와의 관계 악화 가능성을 고려하면, 지금은 시기상조인 것 같아요.",
+                text: "아직은 리스크가 너무 커요. AI 진단이 틀렸을 때의 법적 책임 문제나 파트너와의 관계 악화 가능성을 고려하면, 지금은 시기상조인 것 같아요.",
                 points: { customer: 3, partnership: 8, innovation: 2, growth: 3, efficiency: 5 },
                 isCultureFit: false,
                 nextMessage: {
@@ -197,7 +197,7 @@ const scenarios = {
                 nextMessage: {
                     sender: "지훈 (PO)",
                     avatar: "PO",
-                    content: "좋아요! 혁신에 대한 적극적인 자세가 마카롱팩토리다워요. 단계적 접근으로 리스크도 관리할 수 있겠네요.",
+                    content: "좋아요! 혁신에 대한 적극적인 자세가 돋보여요. 단계적 접근으로 리스크도 관리할 수 있겠네요.",
                     isUser: false
                 }
             },
@@ -227,7 +227,7 @@ const scenarios = {
                 id: 1,
                 sender: "지훈 (PO)",
                 avatar: "PO",
-                content: "GA 데이터를 보니까 예약 퍼널에서 이탈률이 65%나 돼요. 특히 차량 정보 입력 단계에서 많이 이탈하더라고요. 현재는 7단계를 거쳐야 예약이 완료되는데, 너무 복잡한 것 같아요.",
+                content: "GA 데이터를 보니까 예약 퍼널에서 이탈률이 65%나 돼요. 특히 정보 입력 단계에서 많이 이탈하더라고요. 현재는 7단계를 거쳐야 예약이 완료되는데, 너무 복잡한 것 같아요.",
                 isUser: false,
                 delay: 1000
             },
@@ -235,7 +235,7 @@ const scenarios = {
                 id: 2,
                 sender: "민지 (iOS Developer)",
                 avatar: "DEV",
-                content: "기술적으로는 단계를 줄일 수 있어요. 하지만 정비소에서 정확한 정보를 원하기 때문에 현재 구조가 된 거잖아요. 정보가 부족하면 정비소에서 다시 문의 전화를 해야 하고...",
+                content: "기술적으로는 단계를 줄일 수 있어요. 하지만 파트너에서 정확한 정보를 원하기 때문에 현재 구조가 된 거잖아요. 정보가 부족하면 파트너에서 다시 문의 전화를 해야 하고...",
                 isUser: false,
                 delay: 2000
             },
@@ -251,7 +251,7 @@ const scenarios = {
         choices: [
             {
                 id: "4a",
-                text: "정비소에서 정확한 정보를 원하는 이유가 있을 거예요. 현재 프로세스를 유지하되, UI/UX를 개선해서 입력 편의성을 높이는 방향으로 가보죠.",
+                text: "파트너에서 정확한 정보를 원하는 이유가 있을 거예요. 현재 프로세스를 유지하되, UI/UX를 개선해서 입력 편의성을 높이는 방향으로 가보죠.",
                 points: { customer: 5, partnership: 10, innovation: 3, growth: 3, efficiency: 5 },
                 isCultureFit: false,
                 nextMessage: {
@@ -281,7 +281,7 @@ const scenarios = {
                 nextMessage: {
                     sender: "지훈 (PO)",
                     avatar: "PO",
-                    content: "효율성과 고객 중심 사고가 돋보이네요! 기술로 사용자 경험을 개선하는 마카롱팩토리다운 접근이에요.",
+                    content: "효율성과 고객 중심 사고가 돋보이네요! 기술로 사용자 경험을 개선하는 접근이에요.",
                     isUser: false
                 }
             }
@@ -291,15 +291,15 @@ const scenarios = {
     // 시나리오 5: 성장을 위한 새로운 시장 진출
     scenario5: {
         id: 5,
-        title: "전기차 정비 시장 진출",
+        title: "신시장 진출 검토",
         time: "17:15 PM",
-        description: "전기차 보급 확산에 따라 전기차 정비 시장 진출을 검토하고 있습니다.",
+        description: "신시장 보급 확산에 따라 새로운 시장 진출을 검토하고 있습니다.",
         messages: [
             {
                 id: 1,
                 sender: "지훈 (PO)",
                 avatar: "PO",
-                content: "전기차 시장이 급성장하고 있어요. 정부에서도 2030년까지 전기차 300만대 보급을 목표로 하고 있고요. 마이클도 전기차 정비 시장에 진출을 고려해야 할 때인 것 같아요.",
+                content: "신시장 트렌드가 급성장하고 있어요. 정부에서도 2030년까지 보급을 목표로 하고 있고요. 우리 조직도 신시장 진출을 고려해야 할 때인 것 같아요.",
                 isUser: false,
                 delay: 1000
             },
@@ -307,7 +307,7 @@ const scenarios = {
                 id: 2,
                 sender: "준호 (Server Developer)",
                 avatar: "DEV",
-                content: "전기차 정비는 일반 차량과 완전히 달라요. 고전압 시스템이라 자격증이 있는 정비사만 작업할 수 있고, 정비소도 특별한 장비가 필요하고요.",
+                content: "신시장 진출은 기존 시장과 완전히 달라요. 자격증이 있는 전문가만 작업할 수 있고, 파트너도 특별한 장비가 필요하고요.",
                 isUser: false,
                 delay: 2000
             },
@@ -315,7 +315,7 @@ const scenarios = {
                 id: 3,
                 sender: "민지 (iOS Developer)",
                 avatar: "DEV",
-                content: "맞아요. 그리고 전기차 정비소는 아직 많지 않아서 파트너 확보부터 쉽지 않을 것 같은데요.",
+                content: "맞아요. 그리고 신시장 파트너는 아직 많지 않아서 파트너 확보부터 쉽지 않을 것 같은데요.",
                 isUser: false,
                 delay: 3000
             }
@@ -323,7 +323,7 @@ const scenarios = {
         choices: [
             {
                 id: "5a",
-                text: "아직은 리스크가 너무 커요. 전기차 시장이 성숙해질 때까지 기존 사업에 집중하고, 시장이 안정화된 후에 진출하는 게 안전할 것 같아요.",
+                text: "아직은 리스크가 너무 커요. 시장이 성숙해질 때까지 기존 사업에 집중하고, 시장이 안정화된 후에 진출하는 게 안전할 것 같아요.",
                 points: { customer: 3, partnership: 5, innovation: 2, growth: 3, efficiency: 8 },
                 isCultureFit: false,
                 nextMessage: {
@@ -335,7 +335,7 @@ const scenarios = {
             },
             {
                 id: "5b",
-                text: "시장 조사부터 체계적으로 해보겠습니다. 전기차 보급률, 정비 수요, 경쟁 현황을 분석하고 비즈니스 모델을 수립한 후 진출 여부를 결정하죠.",
+                text: "시장 조사부터 체계적으로 해보겠습니다. 보급률, 수요, 경쟁 현황을 분석하고 비즈니스 모델을 수립한 후 진출 여부를 결정하죠.",
                 points: { customer: 5, partnership: 5, innovation: 5, growth: 8, efficiency: 8 },
                 isCultureFit: false,
                 nextMessage: {
@@ -347,13 +347,13 @@ const scenarios = {
             },
             {
                 id: "5c",
-                text: "미래 성장을 위해서는 필수적인 진출이에요! 어려움이 있더라도 지금부터 준비해야 합니다. 전기차 정비 자격증을 가진 정비소들을 먼저 파악하고, 단계적으로 파트너십을 구축해보죠.",
+                text: "미래 성장을 위해서는 필수적인 진출이에요! 어려움이 있더라도 지금부터 준비해야 합니다. 자격증을 가진 파트너들을 먼저 파악하고, 단계적으로 파트너십을 구축해보죠.",
                 points: { customer: 8, partnership: 10, innovation: 10, growth: 15, efficiency: 5 },
                 isCultureFit: true,
                 nextMessage: {
                     sender: "지훈 (PO)",
                     avatar: "PO",
-                    content: "성장에 대한 적극적인 마인드가 좋네요! 미래를 준비하는 마카롱팩토리의 자세예요.",
+                    content: "성장에 대한 적극적인 마인드가 좋네요! 미래를 준비하는 자세예요.",
                     isUser: false
                 }
             }

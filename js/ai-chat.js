@@ -1,4 +1,4 @@
-// 마카롱팩토리 AI 기반 대화 처리 시스템
+// 조직 협업 시뮬레이터 AI 기반 대화 처리 시스템
 class MacarongAIChatSystem {
     constructor() {
         this.conversationHistory = [];
@@ -9,7 +9,7 @@ class MacarongAIChatSystem {
                 personality: "사용자 중심 사고, 데이터 기반 의사결정, 빠른 실행 추구",
                 communication_style: "명확하고 구체적, 질문을 통한 방향 제시, 고객 가치 중심",
                 cultural_values: ["고객중심", "효율성", "성장"],
-                background: "마이클 앱 출시부터 함께한 베테랑 PO, 정비소 파트너와의 관계 중시"
+                background: "가상 조직 앱 출시부터 함께한 베테랑 PO, 정비소 파트너와의 관계 중시"
             },
             designer: {
                 name: "나 (Product Designer)",
@@ -87,13 +87,13 @@ class MacarongAIChatSystem {
                 "⚡ 효율성 - 빠르고 간편한 서비스로 모든 이해관계자의 시간 절약"
             ],
             company_info: {
-                name: "마카롱팩토리",
-                service: "마이클 - 차량관리 앱",
+                name: "가상 조직",
+                service: "O2O 서비스",
                 users: "2,500만 운전자",
                 partners: "3만 정비소",
                 growth: "3년 만에 매출 38억에서 408억으로 성장",
                 mission: "모든 운전자가 안전하고 편리하게 차량을 관리할 수 있는 세상",
-                vision: "글로벌 1위 차량관리 플랫폼"
+                vision: "글로벌 1위 O2O 플랫폼"
             },
             current_challenges: [
                 "전기차 시장 확산에 따른 새로운 정비 수요",
@@ -164,18 +164,18 @@ class MacarongAIChatSystem {
         const templates = {
             positive_culture_fit: [
                 `좋은 접근이네요! ${personality.cultural_values[0]} 가치가 잘 드러나는 선택이에요.`,
-                `${personality.name}다운 판단이에요. 마카롱팩토리의 ${personality.cultural_values[0]} 문화와 잘 맞습니다.`,
-                `훌륭해요! 이런 사고방식이 바로 마카롱팩토리가 추구하는 방향이에요.`
+                `${personality.name}다운 판단이에요. 우리 조직의 ${personality.cultural_values[0]} 문화와 잘 맞습니다.`,
+                `훌륭해요! 이런 사고방식이 바로 우리 조직이 추구하는 방향이에요.`
             ],
             constructive_feedback: [
-                `이해할 만한 접근이지만, 마카롱팩토리의 ${personality.cultural_values[0]} 관점에서 보면...`,
+                `이해할 만한 접근이지만, 우리 조직의 ${personality.cultural_values[0]} 관점에서 보면...`,
                 `실용적인 선택이네요. 다만 ${personality.cultural_values[1]} 측면도 고려해보면 어떨까요?`,
                 `체계적인 접근이에요. 여기에 ${personality.cultural_values[0]} 요소를 더한다면 더 좋을 것 같아요.`
             ],
             encouraging: [
                 `${personality.name} 관점에서는 이런 부분도 중요할 것 같아요.`,
                 `좋은 지적이에요. 추가로 이런 방향도 생각해볼 수 있을 것 같습니다.`,
-                `맞는 말씀이에요. 마카롱팩토리에서는 이런 식으로 접근하는 경우가 많아요.`
+                `맞는 말씀이에요. 우리 조직에서는 이런 식으로 접근하는 경우가 많아요.`
             ]
         };
 
@@ -221,13 +221,13 @@ class MacarongAIChatSystem {
 
         // 전체 평가
         if (avgScore >= 12) {
-            feedback.overall_assessment = "마카롱팩토리의 핵심가치와 완벽하게 일치하는 뛰어난 컬처핏을 보여주셨습니다.";
+            feedback.overall_assessment = "우리 조직의 핵심가치와 완벽하게 일치하는 뛰어난 컬처핏을 보여주셨습니다.";
         } else if (avgScore >= 8) {
-            feedback.overall_assessment = "마카롱팩토리의 문화에 잘 적응할 수 있는 좋은 잠재력을 가지고 계십니다.";
+            feedback.overall_assessment = "우리 조직의 문화에 잘 적응할 수 있는 좋은 잠재력을 가지고 계십니다.";
         } else if (avgScore >= 5) {
-            feedback.overall_assessment = "마카롱팩토리의 문화를 이해하고 적응해 나갈 수 있는 기본 소양을 갖추고 계십니다.";
+            feedback.overall_assessment = "우리 조직의 문화를 이해하고 적응해 나갈 수 있는 기본 소양을 갖추고 계십니다.";
         } else {
-            feedback.overall_assessment = "마카롱팩토리의 문화와 가치에 대해 더 깊이 이해하는 시간이 필요할 것 같습니다.";
+            feedback.overall_assessment = "우리 조직의 문화와 가치에 대해 더 깊이 이해하는 시간이 필요할 것 같습니다.";
         }
 
         // 강점 분석

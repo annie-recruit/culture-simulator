@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마카롱팩토리 컬처핏 관리자 대시보드</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>">
+    <title>조직 협업 시뮬레이터 관리자 대시보드</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     
     <!-- 관리자 패스워드 보호 -->
@@ -428,8 +428,8 @@
     <div class="container">
         <!-- 헤더 -->
         <div class="header">
-            <h1>🚗 마카롱팩토리 컬처핏 관리자 대시보드</h1>
-            <p>지원자들의 컬처핏 시뮬레이터 결과를 관리하고 분석할 수 있습니다.</p>
+            <h1>🤝 조직 협업 시뮬레이터 관리자 대시보드</h1>
+            <p>지원자들의 협업 시뮬레이터 결과를 관리하고 분석할 수 있습니다.</p>
         </div>
 
         <!-- 통계 카드 -->
@@ -440,7 +440,7 @@
             </div>
             <div class="stat-card">
                 <span class="stat-number" id="avgScore">0%</span>
-                <div class="stat-label">평균 컬처핏 점수</div>
+                <div class="stat-label">평균 협업 점수</div>
             </div>
             <div class="stat-card">
                 <span class="stat-number" id="excellentCount">0</span>
@@ -472,12 +472,10 @@
             <div class="table-header">
                 <div class="applicant-row" style="cursor: default;">
                     <div>지원자 정보</div>
-                    <div>컬처핏 점수</div>
-                    <div>고객중심</div>
-                    <div>파트너십</div>
-                    <div>혁신</div>
+                    <div>협업 점수</div>
+                    <div>주도성</div>
+                    <div>협업</div>
                     <div>성장</div>
-                    <div>효율성</div>
                     <div>상세보기</div>
                 </div>
             </div>
@@ -676,7 +674,7 @@
                                 <div class="detail-value">${applicant.email || '-'}</div>
                             </div>
                             <div class="detail-item">
-                                <div class="detail-label">총 컬처핏 점수</div>
+                                <div class="detail-label">총 협업 점수</div>
                                 <div class="detail-value">${applicant.finalPercentage}%</div>
                             </div>
                             <div class="detail-item">
@@ -684,7 +682,7 @@
                                 <div class="detail-value">${duration}분</div>
                             </div>
                             <div class="detail-item">
-                                <div class="detail-label">컬처핏 답변</div>
+                                <div class="detail-label">협업 답변</div>
                                 <div class="detail-value">${cultureFitChoices}/5개</div>
                             </div>
                             <div class="detail-item">
@@ -729,7 +727,7 @@
                                     <div class="response-choice">${response.choiceText}</div>
                                     <div class="response-meta">
                                         <span class="culture-fit-badge ${response.isCultureFit ? 'culture-fit-yes' : 'culture-fit-no'}">
-                                            ${response.isCultureFit ? '컬처핏' : '일반 답변'}
+                                            ${response.isCultureFit ? '협업' : '일반 답변'}
                                         </span>
                                         <span>${new Date(response.timestamp).toLocaleTimeString()}</span>
                                     </div>
@@ -759,7 +757,7 @@
                 return;
             }
 
-            const headers = ['이름', '이메일', '컬처핏점수(%)', '고객중심', '파트너십', '혁신', '성장', '효율성', '완료일시'];
+            const headers = ['이름', '이메일', '협업점수(%)', '주도성', '협업', '성장', '완료일시'];
             const csvContent = [
                 headers.join(','),
                 ...data.map(applicant => [
@@ -778,7 +776,7 @@
             const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = `마카롱팩토리_컬처핏_결과_${new Date().toISOString().split('T')[0]}.csv`;
+            link.download = `조직협업시뮬레이터_결과_${new Date().toISOString().split('T')[0]}.csv`;
             link.click();
         }
 
@@ -796,7 +794,7 @@
     
     <!-- 저작권 표시 -->
     <footer class="copyright" style="text-align: center; padding: 20px; margin-top: 40px; color: var(--text-secondary); border-top: 1px solid var(--border-color);">
-        <p>© 2025 컬처핏 시뮬레이터. All rights reserved.</p>
+        <p>© 2025 조직 협업 시뮬레이터. All rights reserved.</p>
         <p>Developed by <strong>Gaon</strong></p>
     </footer>
 </body>
