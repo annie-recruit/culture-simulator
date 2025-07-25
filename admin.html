@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마카롱팩토리 컬처핏 관리자 대시보드</title>
+    <title>조직 협업 시뮬레이터 관리자 대시보드</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     
@@ -428,8 +428,8 @@
     <div class="container">
         <!-- 헤더 -->
         <div class="header">
-            <h1>🚗 마카롱팩토리 컬처핏 관리자 대시보드</h1>
-            <p>지원자들의 컬처핏 시뮬레이터 결과를 관리하고 분석할 수 있습니다.</p>
+            <h1>🚗 조직 협업 시뮬레이터 관리자 대시보드</h1>
+            <p>지원자들의 시뮬레이터 결과를 관리하고 분석할 수 있습니다.</p>
         </div>
 
         <!-- 통계 카드 -->
@@ -778,7 +778,7 @@
             const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = `마카롱팩토리_컬처핏_결과_${new Date().toISOString().split('T')[0]}.csv`;
+            link.download = `조직협업시뮬레이터_컬처핏_결과_${new Date().toISOString().split('T')[0]}.csv`;
             link.click();
         }
 
@@ -796,7 +796,7 @@
     
     <!-- 저작권 표시 -->
     <footer class="copyright" style="text-align: center; padding: 20px; margin-top: 40px; color: var(--text-secondary); border-top: 1px solid var(--border-color);">
-        <p>© 2025 컬처핏 시뮬레이터. All rights reserved.</p>
+        <p>© 2025 조직 협업 시뮬레이터. All rights reserved.</p>
         <p>Developed by <strong>Gaon</strong></p>
     </footer>
 </body>
