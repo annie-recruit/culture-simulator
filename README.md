@@ -150,7 +150,13 @@ macarong-simulator/
 
 ## 📄 라이선스
 
-이 프로젝트는 MIT 라이선스 하에 배포됩니다.
+이 프로젝트는 Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0) 라이선스를 따릅니다.
+
+- 저작자 표시 필수
+- **상업적 이용 금지**
+- 2차 저작물 허용
+
+자세한 내용은 LICENSE 파일과 https://creativecommons.org/licenses/by-nc/4.0/ 를 참고하세요.
 
 ## 📞 문의
 
