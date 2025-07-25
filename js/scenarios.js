@@ -1,17 +1,17 @@
-// 마카롱팩토리 컬처핏 시나리오 데이터
+// 조직 협업 시뮬레이터 시나리오 데이터
 const scenarios = {
     // 시나리오 1: 정비소 파트너 불만 처리
     scenario1: {
         id: 1,
         title: "정비소 파트너 불만 해결",
         time: "09:30 AM",
-        description: "정비소 파트너가 마이클 앱의 수수료 정책에 불만을 제기했습니다.",
+        description: "정비소 파트너가 우리 서비스의 수수료 정책에 불만을 제기했습니다.",
         messages: [
             {
                 id: 1,
                 sender: "지훈 (PO)",
                 avatar: "PO",
-                content: "어제 강남구 정비소 사장님이 연락을 주셨어요. 마이클 앱 수수료가 타 플랫폼 대비 높다고 하시면서, 계약 재검토를 요청하셨습니다. 이미 5년간 함께 해온 파트너인데... 어떻게 접근하면 좋을까요?",
+                content: "어제 강남구 정비소 사장님이 연락을 주셨어요. 우리 서비스 수수료가 타 플랫폼 대비 높다고 하시면서, 계약 재검토를 요청하셨습니다. 이미 5년간 함께 해온 파트너인데... 어떻게 접근하면 좋을까요?",
                 isUser: false,
                 delay: 1000
             },
@@ -41,7 +41,7 @@ const scenarios = {
                 nextMessage: {
                     sender: "지훈 (PO)",
                     avatar: "PO",
-                    content: "좋은 접근이네요! 파트너십은 마카롱팩토리의 핵심 가치죠. 장기적인 관점에서 상생할 수 있는 방안을 찾아보겠습니다.",
+                    content: "좋은 접근이네요! 파트너십은 우리 조직의 핵심 가치죠. 장기적인 관점에서 상생할 수 있는 방안을 찾아보겠습니다.",
                     isUser: false
                 }
             },
@@ -155,7 +155,7 @@ const scenarios = {
                 id: 1,
                 sender: "준호 (Server Developer)",
                 avatar: "DEV",
-                content: "최근 ChatGPT나 Claude 같은 AI가 발전하면서, 마이클 앱에도 AI 기능을 도입해보면 어떨까 생각했어요. 고객이 차량 증상을 설명하면 AI가 예상 정비 항목과 비용을 미리 알려주는 기능이요.",
+                content: "최근 ChatGPT나 Claude 같은 AI가 발전하면서, 우리 서비스에도 AI 기능을 도입해보면 어떨까 생각했어요. 고객이 차량 증상을 설명하면 AI가 예상 정비 항목과 비용을 미리 알려주는 기능이요.",
                 isUser: false,
                 delay: 1000
             },
@@ -197,7 +197,7 @@ const scenarios = {
                 nextMessage: {
                     sender: "지훈 (PO)",
                     avatar: "PO",
-                    content: "좋아요! 혁신에 대한 적극적인 자세가 마카롱팩토리다워요. 단계적 접근으로 리스크도 관리할 수 있겠네요.",
+                    content: "좋아요! 혁신에 대한 적극적인 자세가 우리 조직다워요. 단계적 접근으로 리스크도 관리할 수 있겠네요.",
                     isUser: false
                 }
             },
@@ -281,7 +281,7 @@ const scenarios = {
                 nextMessage: {
                     sender: "지훈 (PO)",
                     avatar: "PO",
-                    content: "효율성과 고객 중심 사고가 돋보이네요! 기술로 사용자 경험을 개선하는 마카롱팩토리다운 접근이에요.",
+                    content: "효율성과 고객 중심 사고가 돋보이네요! 기술로 사용자 경험을 개선하는 우리 조직다운 접근이에요.",
                     isUser: false
                 }
             }
@@ -299,7 +299,7 @@ const scenarios = {
                 id: 1,
                 sender: "지훈 (PO)",
                 avatar: "PO",
-                content: "전기차 시장이 급성장하고 있어요. 정부에서도 2030년까지 전기차 300만대 보급을 목표로 하고 있고요. 마이클도 전기차 정비 시장에 진출을 고려해야 할 때인 것 같아요.",
+                content: "전기차 시장이 급성장하고 있어요. 정부에서도 2030년까지 전기차 300만대 보급을 목표로 하고 있고요. 우리 서비스도 전기차 정비 시장에 진출을 고려해야 할 때인 것 같아요.",
                 isUser: false,
                 delay: 1000
             },
@@ -353,7 +353,7 @@ const scenarios = {
                 nextMessage: {
                     sender: "지훈 (PO)",
                     avatar: "PO",
-                    content: "성장에 대한 적극적인 마인드가 좋네요! 미래를 준비하는 마카롱팩토리의 자세예요.",
+                    content: "성장에 대한 적극적인 마인드가 좋네요! 미래를 준비하는 우리 조직의 자세예요.",
                     isUser: false
                 }
             }
@@ -364,6 +364,7 @@ const scenarios = {
 // 시나리오 매니저
 class ScenarioManager {
     constructor() {
+        this.scenarios = scenarios;
         this.currentScenario = null;
         this.currentStep = 0;
         this.completedScenarios = [];
