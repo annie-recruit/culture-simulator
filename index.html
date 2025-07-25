@@ -7,6 +7,33 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+.member-btn {
+  display: inline-block !important;
+  background: #f3f6fa !important;
+  color: #2563eb !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 20px !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  padding: 10px 22px !important;
+  margin: 0 8px 8px 0 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  outline: none !important;
+}
+.member-btn:hover {
+  background: #e0e7ff !important;
+  border-color: #2563eb !important;
+}
+.member-btn.selected {
+  background: #2563eb !important;
+  color: #fff !important;
+  border-color: #1e40af !important;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.15) !important;
+  z-index: 1 !important;
+}
+</style>
 </head>
 <body>
     <div class="container">
@@ -26,10 +53,22 @@
         <div class="team-panel">
             <h3>🏗️ 프로젝트 스쿼드</h3>
             <div class="team-members">
-                <button class="member-btn" data-role="PO">PO 지훈 (Product Owner)</button>
-                <button class="member-btn" data-role="PD">PD 나 (Product Designer)</button>
-                <button class="member-btn" data-role="Dev1">DEV 민지 (iOS Developer)</button>
-                <button class="member-btn" data-role="Dev2">DEV 준호 (Server Developer)</button>
+                <div class="member">
+                    <span class="avatar po">PO</span>
+                    <span>지훈 (Product Owner)</span>
+                </div>
+                <div class="member">
+                    <span class="avatar designer">PD</span>
+                    <span>나 (Product Designer)</span>
+                </div>
+                <div class="member">
+                    <span class="avatar dev">DEV</span>
+                    <span>민지 (iOS Developer)</span>
+                </div>
+                <div class="member">
+                    <span class="avatar dev">DEV</span>
+                    <span>준호 (Server Developer)</span>
+                </div>
             </div>
         </div>
 
